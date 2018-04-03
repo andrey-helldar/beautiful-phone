@@ -84,7 +84,6 @@ class Phone
 
     /**
      * Получение кода региона (страны).
-     * Для России дополнительная проверка на "+7" и "8".
      *
      * @param $phone
      *
@@ -94,8 +93,9 @@ class Phone
     {
         $codes = $this->config->get('countries', []);
         $code  = substr($phone, 0, 1);
+        $key   = array_search($code, $codes);
 
-        return in_array($code, $codes) ? 7 : $code;
+        return $key ? $codes[$key] : $code;
     }
 
     /**
@@ -173,9 +173,10 @@ class Phone
             return $is_link ? $phone : '';
         }
 
-        $template = !$is_link ? ($is_html ? '<small>+7 (%s)</small> ' : '+7 (%s) ') : '+7%s';
+        $default_country = $this->config->get('country_default', '7');
+        $template        = !$is_link ? ($is_html ? '<small>+%s (%s)</small> ' : '+%s (%s) ') : '+%s%s';
 
-        return sprintf($template, $code) . ($is_link ? $phone : '');
+        return sprintf($template, $default_country, $code) . ($is_link ? $phone : '');
     }
 
     /**
