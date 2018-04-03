@@ -10,8 +10,7 @@ if (!function_exists('phone')) {
      */
     function phone($phone, $phone_code = 0, $is_html = true)
     {
-        return (new \Helldar\BeautifulPhone\Services\Phone())
-            ->get($phone, $phone_code, $is_html);
+        return app('phone')->get($phone, $phone_code, $is_html);
     }
 }
 

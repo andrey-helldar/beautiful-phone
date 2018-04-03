@@ -2,19 +2,17 @@
 
 namespace Helldar\BeautifulPhone;
 
+use Helldar\BeautifulPhone\Services\Phone;
+
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
+     * {@inheritdoc}
      */
-    protected $defer = false;
+    protected $defer = true;
 
     /**
-     * Bootstrap the application events.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function boot()
     {
@@ -24,10 +22,20 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     }
 
     /**
-     * Register the service provider.
+     * {@inheritdoc}
      */
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/config/beautiful_phone.php', 'beautiful_phone');
+
+        $this->app->singleton('phone', Phone::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function provides()
+    {
+        return ['phone'];
     }
 }

@@ -11,6 +11,6 @@ class PhoneTest extends TestCase
     {
         $phone = new Phone();
 
-        $this->assertEquals($phone->get('foo-bar', 0, false), '366-227');
+        $this->assertEquals($phone->get('foobar', 0, false), '366-227');
     }
 }

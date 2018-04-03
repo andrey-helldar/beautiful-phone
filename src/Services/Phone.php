@@ -26,7 +26,7 @@ class Phone
      */
     private function convertWords($phone = '')
     {
-        $phone = str_lower($phone);
+        $phone   = str_lower($phone);
         $replace = [
             '2' => ['a', 'b', 'c'],
             '3' => ['d', 'e', 'f'],
@@ -72,7 +72,7 @@ class Phone
     {
         foreach ($this->config->get('codes', []) as $code) {
             $len_region = strlen($region);
-            $len_code = strlen((string) $code);
+            $len_code   = strlen((string) $code);
 
             if (substr($phone, $len_region, $len_code) === (string) $code) {
                 return (string) $code;
@@ -93,7 +93,7 @@ class Phone
     private function region($phone)
     {
         $codes = $this->config->get('countries', []);
-        $code = substr($phone, 0, 1);
+        $code  = substr($phone, 0, 1);
 
         return in_array($code, $codes) ? 7 : $code;
     }
@@ -130,7 +130,7 @@ class Phone
      */
     private function template()
     {
-        $default = '+%s (%s) %s';
+        $default  = '+%s (%s) %s';
         $template = $this->config->get('template', $default);
 
         if (substr_count($template, '%s') !== 3) {
@@ -147,7 +147,7 @@ class Phone
      */
     private function templateHtml()
     {
-        $default = '<small>+%s (%s)</small> %s';
+        $default  = '<small>+%s (%s)</small> %s';
         $template = $this->config->get('template_html', $default);
 
         if (substr_count($template, '%s') !== 3) {
@@ -187,7 +187,7 @@ class Phone
      */
     private function isBeauty($phone)
     {
-        $arr = str_split((string) $phone, 3);
+        $arr       = str_split((string) $phone, 3);
         $is_beauty = $arr[0] === $arr[1];
 
         if (!$is_beauty) {
@@ -195,8 +195,8 @@ class Phone
         }
 
         if (!$is_beauty) {
-            $sum0 = $this->sum($arr[0]);
-            $sum1 = $this->sum($arr[1]);
+            $sum0   = $this->sum($arr[0]);
+            $sum1   = $this->sum($arr[1]);
             $count0 = sizeof(array_unique(str_split((string) $arr[0])));
             $count1 = sizeof(array_unique(str_split((string) $arr[1])));
 
@@ -235,7 +235,7 @@ class Phone
      */
     private function format($phone, $phone_code = 0, $is_html = true)
     {
-        $phone = $this->clear((string) $phone);
+        $phone      = $this->clear((string) $phone);
         $phone_code = $this->phoneCode($phone, $phone_code, $is_html);
 
         if (strlen($phone) <= 4) {
@@ -243,7 +243,7 @@ class Phone
         }
 
         if (strlen($phone) == 5) {
-            $arr = str_split(substr($phone, 1), 2);
+            $arr   = str_split(substr($phone, 1), 2);
             $phone = $phone[0] . '-' . implode('-', $arr);
 
             return $phone_code . $phone;
@@ -261,8 +261,8 @@ class Phone
 
         // Мобильные.
         $region = $this->region($phone);
-        $code = $this->code($phone, $region);
-        $phone = substr($phone, strlen($region . $code));
+        $code   = $this->code($phone, $region);
+        $phone  = substr($phone, strlen($region . $code));
 
         $template = $is_html ? $this->templateHtml() : $this->template();
 
@@ -270,9 +270,9 @@ class Phone
     }
 
     /**
-     * @param      $phone
-     * @param int  $phone_code
-     * @param bool $is_html
+     * @param mixed $phone
+     * @param int   $phone_code
+     * @param bool  $is_html
      *
      * @return bool|string
      */
@@ -283,8 +283,8 @@ class Phone
         }
 
         $phone_clean = $this->clear((string) $phone);
-        $phone_link = $this->phoneCode($phone_clean, $phone_code, false, true);
-        $formatted = $this->format((string) $phone, $phone_code, $is_html);
+        $phone_link  = $this->phoneCode($phone_clean, $phone_code, false, true);
+        $formatted   = $this->format((string) $phone, $phone_code, $is_html);
 
         return sprintf($this->config->get('link'), $phone_link, $formatted);
     }
