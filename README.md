@@ -2,7 +2,7 @@
 
 Formatting a phone number in a beautiful view.
 
-![Beautiful Phone Formatter](https://user-images.githubusercontent.com/10347617/38246764-876aba82-374b-11e8-9f18-fc6ea9ffa689.png)
+![Beautiful Phone Formatter](https://user-images.githubusercontent.com/10347617/38246961-35f485e2-374c-11e8-97b2-bead0bf4994c.png)
 
 <p align="center">
 <a href="https://travis-ci.org/andrey-helldar/beautiful-phone"><img src="https://travis-ci.org/andrey-helldar/beautiful-phone.svg?branch=master&style=flat-square" alt="Build Status" /></a>
