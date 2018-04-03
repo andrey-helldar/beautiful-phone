@@ -1,0 +1,40 @@
+{
+    "name": "andrey-helldar/beautiful-phone",
+    "description": "Formatting a phone number in a beautiful view",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["beautiful-phone", "beautiful", "phone", "generator"],
+    "authors": [
+        {
+            "name": "Andrey Helldar",
+            "email": "helldar@ai-rus.com"
+        }
+    ],
+    "require": {
+        "php": "^5.6|^7.0",
+        "illuminate/support": "^5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Helldar\\BeautifulPhone\\": "src/"
+        },
+        "files": [
+            "src/Helpers/helpers.php"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Helldar\\BeautifulPhone\\ServiceProvider"
+            ]
+        }
+    }
+}
