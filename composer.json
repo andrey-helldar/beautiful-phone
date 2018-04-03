@@ -3,7 +3,7 @@
     "description": "Formatting a phone number in a beautiful view",
     "type": "library",
     "license": "MIT",
-    "keywords": ["beautiful-phone", "beautiful", "phone", "generator"],
+    "keywords": ["beautiful-phone", "beautiful", "phone"],
     "authors": [
         {
             "name": "Andrey Helldar",
