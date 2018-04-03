@@ -9,7 +9,14 @@ return [
         3, // Ukraine
         7, // Russia
         8, // Russia
+        49, // Germany
     ],
+
+    /*
+     * Default country code.
+     */
+
+    'country_default' => 49,
 
     /*
      * Cities codes.
