@@ -1,4 +1,4 @@
-# Beautiful Phone for Laravel 5.4+
+# Beautiful Phone Formatter for Laravel 5.4+
 
 Formatting a phone number in a beautiful view.
 
