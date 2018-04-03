@@ -2,6 +2,8 @@
 
 namespace Helldar\BeautifulPhone\Services;
 
+use Illuminate\Support\Str;
+
 class Phone
 {
     /**
@@ -93,9 +95,14 @@ class Phone
     {
         $codes = $this->config->get('countries', []);
         $code  = substr($phone, 0, 1);
-        $key   = array_search($code, $codes);
 
-        return $key ? $codes[$key] : $code;
+        foreach ($codes as $item) {
+            if (Str::startsWith($phone, $item)) {
+                return $item;
+            }
+        }
+
+        return $code;
     }
 
     /**
