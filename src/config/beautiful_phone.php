@@ -30,7 +30,7 @@ return [
      * Template for plain text and html views.
      */
 
-    'template'      => '+%s (%s) %s',
+    'template' => '+%s (%s) %s',
     'template_html' => '<small>+%s (%s)</small> %s',
 
     /*
