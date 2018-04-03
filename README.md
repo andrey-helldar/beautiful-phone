@@ -1,4 +1,4 @@
-# Beautiful Phone Formatter for Laravel 5.4+
+# Beautiful Phone for Laravel 5.4+
 
 Formatting a phone number in a beautiful view.
 
@@ -54,27 +54,67 @@ Now you can use a `phone()` helper.
 
 
 ## Using
+
+    return phone('foobar')
+    // returned: <a href='tel:366227'>36-62-27</a>
+
+    return phone('123123')
+    // returned: <a href='tel:123123'>123-123</a>
+
+    return phone('555555')
+    // returned: <a href='tel:555555'>555-555</a>
+
+    return phone('71234567890')
+    // returned: <a href='tel:71234567890'><small>+7 (123)</small> 456-78-90</a>
+
+    return phone('31234567890')
+    // returned: <a href='tel:31234567890'><small>+3 (123)</small> 456-78-90</a>
+
+    return phone('+33216549873')
+    // returned: <a href='tel:33216549873'><small>+3 (321)</small> 654-98-73</a>
     
-    return phone('123', 0, false)
-    // returned: 123
+    
+If you pass the area code as an attribute:
+(in config: `'country_default' => 49`)
+
+    return phone('foobar', 1234)
+    // returned: <a href='tel:+491234366227'><small>+49 (1234)</small> 36-62-27</a>
+
+    return phone('123123', 1234)
+    // returned: <a href='tel:+491234123123'><small>+49 (1234)</small> 123-123</a>
+
+    return phone('555555', 1234)
+    // returned: <a href='tel:+491234555555'><small>+49 (1234)</small> 555-555</a>
+
+    return phone('71234567890', 1234)
+    // returned: <a href='tel:71234567890'><small>+7 (123)</small> 456-78-90</a>
+
+    return phone('31234567890', 1234)
+    // returned: <a href='tel:31234567890'><small>+3 (123)</small> 456-78-90</a>
+
+    return phone('+33216549873', 1234)
+    // returned: <a href='tel:33216549873'><small>+3 (321)</small> 654-98-73</a>
+
+If we pass into the attribute the prohibition on the formation of a telephone number in html format:
+
 
     return phone('foobar', 0, false)
     // returned: 36-62-27
-    
+
     return phone('123123', 0, false)
     // returned: 123-123
-    
+
     return phone('555555', 0, false)
     // returned: 555-555
-    
-    return phone('2345532', 0, false)
-    // returned: 234-553-2
-    
-    return phone('79241234567')
-    // returned: <a href='tel:79241234567><small>+7 (924)</small> 123-45-67</a>
-    
-    return phone('2345532')
-    // returned: <a href='tel:79241234567>234-553-2</a>
+
+    return phone('71234567890', 0, false)
+    // returned: +7 (123) 456-78-90
+
+    return phone('31234567890', 0, false)
+    // returned: +3 (123) 456-78-90
+
+    return phone('+33216549873', 0, false)
+    // returned: +3 (321) 654-98-73
 
 
 ## Copyright and License
