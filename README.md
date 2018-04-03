@@ -1,4 +1,4 @@
-# Beautiful Phone for Laravel 5.4+
+# Beautiful Phone Formatter for Laravel 5.4+
 
 Formatting a phone number in a beautiful view.
 
@@ -54,24 +54,27 @@ Now you can use a `phone()` helper.
 
 
 ## Using
+    
+    return phone('123', 0, false)
+    // returned: 123
 
-    return phone('foobar')
-    // returned: 366-227
+    return phone('foobar', 0, false)
+    // returned: 36-62-27
     
-    return phone('321453')
-    // returned: 32-14-53
+    return phone('123123', 0, false)
+    // returned: 123-123
     
-    return phone('337221')
-    // returned: 337-221
+    return phone('555555', 0, false)
+    // returned: 555-555
     
-    return phone('73903402353', 0, false)
-    // returned: +7 (390) 340-23-53
+    return phone('2345532', 0, false)
+    // returned: 234-553-2
     
-    return phone('73903402353')
-    // returned: <small>+7 (390)</small> 340-23-53
+    return phone('79241234567')
+    // returned: <a href='tel:79241234567><small>+7 (924)</small> 123-45-67</a>
     
-    return phone('73903402353', 3903, false)
-    // returned: +7 (3903) 40-23-53
+    return phone('2345532')
+    // returned: <a href='tel:79241234567>234-553-2</a>
 
 
 ## Copyright and License
