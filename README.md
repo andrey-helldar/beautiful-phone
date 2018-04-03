@@ -17,8 +17,6 @@ Formatting a phone number in a beautiful view.
 <a href="https://php-eye.com/package/andrey-helldar/beautiful-phone"><img src="https://php-eye.com/badge/andrey-helldar/beautiful-phone/tested.svg?style=flat" alt="PHP-Eye" /></a>
 </p>
 
-IMPORTANT! The package is under development. The release will take place next week.
-
 
 ## Installation
 
