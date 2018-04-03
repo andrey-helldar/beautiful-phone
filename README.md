@@ -2,6 +2,8 @@
 
 Formatting a phone number in a beautiful view.
 
+![Beautiful Phone Formatter](https://user-images.githubusercontent.com/10347617/38246764-876aba82-374b-11e8-9f18-fc6ea9ffa689.png)
+
 <p align="center">
 <a href="https://travis-ci.org/andrey-helldar/beautiful-phone"><img src="https://travis-ci.org/andrey-helldar/beautiful-phone.svg?branch=master&style=flat-square" alt="Build Status" /></a>
 <a href="https://packagist.org/packages/andrey-helldar/beautiful-phone"><img src="https://img.shields.io/packagist/dt/andrey-helldar/beautiful-phone.svg?style=flat-square" alt="Total Downloads" /></a>
