@@ -20,7 +20,7 @@ class Phone
     }
 
     /**
-     * Конвертация буквенных значений номера в цифровые.
+     * Conversion of letter numbers into digital numbers.
      *
      * @param string $phone
      *
@@ -48,7 +48,7 @@ class Phone
     }
 
     /**
-     * Удаление из номера всех символов, кроме цифр.
+     * Delete all characters except digits from the number.
      *
      * @param string $phone
      *
@@ -62,8 +62,8 @@ class Phone
     }
 
     /**
-     * Если в телефонном номере найден код города из списка, возвращаем его,
-     * иначе думаем что код города состоит из трех цифр.
+     * If a city code is found in the phone number from the list, return it,
+     * otherwise we think that the city code consists of three digits.
      *
      * @param $phone
      * @param $region
@@ -85,7 +85,7 @@ class Phone
     }
 
     /**
-     * Получение кода региона (страны).
+     * Obtain the region code (country).
      *
      * @param $phone
      *
@@ -106,7 +106,7 @@ class Phone
     }
 
     /**
-     * Разбиение телефонного номера на группы.
+     * Splitting a phone number into groups.
      *
      * @param $phone
      *
@@ -131,7 +131,7 @@ class Phone
     }
 
     /**
-     * Проверяем параметр шаблона вывода форматированного телефонного номера.
+     * Check the output template parameter of the formatted phone number.
      *
      * @return string
      */
@@ -148,7 +148,7 @@ class Phone
     }
 
     /**
-     * Проверяем параметр шаблона вывода форматированного телефонного номера.
+     * Check the html template parameter of the output of the formatted phone number.
      *
      * @return string
      */
@@ -165,7 +165,7 @@ class Phone
     }
 
     /**
-     * Прикрепление телефонного кода города.
+     * Attaching the phone code of the city.
      *
      * @param string $phone
      * @param int    $code
@@ -187,7 +187,7 @@ class Phone
     }
 
     /**
-     * Проверка "красоты" телефонного номера.
+     * Checking the "beauty" of the phone number.
      *
      * @param string $phone
      *
@@ -215,7 +215,7 @@ class Phone
     }
 
     /**
-     * Вычисление суммы цифр строки.
+     * Calculation of the sum of the digits of a string.
      *
      * @param string $digit
      *
@@ -233,7 +233,7 @@ class Phone
     }
 
     /**
-     * Запуск функции форматирования номера.
+     * Formatting a phone number.
      *
      * @param      $phone
      * @param int  $phone_code
@@ -267,7 +267,7 @@ class Phone
             return $phone_code . implode('-', str_split($phone, 3));
         }
 
-        // Мобильные.
+        // Mobile devices.
         $region = $this->region($phone);
         $code   = $this->code($phone, $region);
         $phone  = substr($phone, strlen($region . $code));
@@ -278,6 +278,8 @@ class Phone
     }
 
     /**
+     * Calling the mechanism for formatting the phone number and forming its final form.
+     *
      * @param mixed $phone
      * @param int   $phone_code
      * @param bool  $is_html

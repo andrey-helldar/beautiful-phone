@@ -2,7 +2,7 @@
 
 return [
     /*
-     * Codes for countries.
+     * List of country codes.
      */
 
     'countries' => [
@@ -19,7 +19,7 @@ return [
     'country_default' => 49,
 
     /*
-     * Cities codes.
+     * List of city codes.
      */
 
     'codes' => [

@@ -5,14 +5,14 @@ namespace Helldar\BeautifulPhone\Services;
 class Config
 {
     /**
-     * Массив с кодами городов.
+     * An array with city codes.
      *
      * @var array
      */
     private $codes = [];
 
     /**
-     * Массив с кодами стран, с которых могут начинаться телефонные номера.
+     * An array with country codes from which telephone numbers can begin.
      *
      * @var array
      */
@@ -34,6 +34,8 @@ class Config
     private $link = '';
 
     /**
+     * Loading the configuration section.
+     *
      * @param string $name
      * @param mixed  $default
      *
