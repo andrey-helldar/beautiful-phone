@@ -14,6 +14,7 @@ Formatting a phone number in a beautiful view.
 
 
 <p align="center">
+<a href="https://github.com/andrey-helldar/beautiful-phone"><img src="https://img.shields.io/scrutinizer/g/andrey-helldar/beautiful-phone.svg?style=flat-square" alt="Quality Score" /></a>
 <a href="https://www.versioneye.com/php/andrey-helldar:beautiful-phone/dev-master"><img src="https://www.versioneye.com/php/andrey-helldar:beautiful-phone/dev-master/badge?style=flat-square" alt="Dependency Status" /></a>
 <a href="https://styleci.io/repos/45746985"><img src="https://styleci.io/repos/75637284/shield" alt="StyleCI" /></a>
 <a href="https://php-eye.com/package/andrey-helldar/beautiful-phone"><img src="https://php-eye.com/badge/andrey-helldar/beautiful-phone/tested.svg?style=flat" alt="PHP-Eye" /></a>
