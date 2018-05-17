@@ -2,7 +2,7 @@
 
 Formatting a phone number in a beautiful view.
 
-![beautiful phone](https://user-images.githubusercontent.com/10347617/40197189-5d9b708c-5a1b-11e8-951e-604d1a9c411d.png)
+![beautiful phone](https://user-images.githubusercontent.com/10347617/40197723-f1da55e6-5a1c-11e8-8b20-f8ecedd5718d.png)
 
 <p align="center">
     <a href="https://styleci.io/repos/45746985"><img src="https://styleci.io/repos/75637284/shield" alt="StyleCI" /></a>
