@@ -2,22 +2,14 @@
 
 Formatting a phone number in a beautiful view.
 
-![Beautiful Phone Formatter](https://user-images.githubusercontent.com/10347617/38246961-35f485e2-374c-11e8-97b2-bead0bf4994c.png)
+![beautiful phone](https://user-images.githubusercontent.com/10347617/40197189-5d9b708c-5a1b-11e8-951e-604d1a9c411d.png)
 
 <p align="center">
-<a href="https://travis-ci.org/andrey-helldar/beautiful-phone"><img src="https://travis-ci.org/andrey-helldar/beautiful-phone.svg?branch=master&style=flat-square" alt="Build Status" /></a>
-<a href="https://packagist.org/packages/andrey-helldar/beautiful-phone"><img src="https://img.shields.io/packagist/dt/andrey-helldar/beautiful-phone.svg?style=flat-square" alt="Total Downloads" /></a>
-<a href="https://packagist.org/packages/andrey-helldar/beautiful-phone"><img src="https://poser.pugx.org/andrey-helldar/beautiful-phone/v/stable?format=flat-square" alt="Latest Stable Version" /></a>
-<a href="https://packagist.org/packages/andrey-helldar/beautiful-phone"><img src="https://poser.pugx.org/andrey-helldar/beautiful-phone/v/unstable?format=flat-square" alt="Latest Unstable Version" /></a>
-<a href="https://github.com/andrey-helldar/beautiful-phone"><img src="https://poser.pugx.org/andrey-helldar/beautiful-phone/license?format=flat-square" alt="License" /></a>
-</p>
-
-
-<p align="center">
-<a href="https://github.com/andrey-helldar/beautiful-phone"><img src="https://img.shields.io/scrutinizer/g/andrey-helldar/beautiful-phone.svg?style=flat-square" alt="Quality Score" /></a>
-<a href="https://www.versioneye.com/php/andrey-helldar:beautiful-phone/dev-master"><img src="https://www.versioneye.com/php/andrey-helldar:beautiful-phone/dev-master/badge?style=flat-square" alt="Dependency Status" /></a>
-<a href="https://styleci.io/repos/45746985"><img src="https://styleci.io/repos/75637284/shield" alt="StyleCI" /></a>
-<a href="https://php-eye.com/package/andrey-helldar/beautiful-phone"><img src="https://php-eye.com/badge/andrey-helldar/beautiful-phone/tested.svg?style=flat" alt="PHP-Eye" /></a>
+    <a href="https://styleci.io/repos/45746985"><img src="https://styleci.io/repos/75637284/shield" alt="StyleCI" /></a>
+    <a href="https://packagist.org/packages/andrey-helldar/beautiful-phone"><img src="https://img.shields.io/packagist/dt/andrey-helldar/beautiful-phone.svg?style=flat-square" alt="Total Downloads" /></a>
+    <a href="https://packagist.org/packages/andrey-helldar/beautiful-phone"><img src="https://poser.pugx.org/andrey-helldar/beautiful-phone/v/stable?format=flat-square" alt="Latest Stable Version" /></a>
+    <a href="https://packagist.org/packages/andrey-helldar/beautiful-phone"><img src="https://poser.pugx.org/andrey-helldar/beautiful-phone/v/unstable?format=flat-square" alt="Latest Unstable Version" /></a>
+    <a href="LICENSE"><img src="https://poser.pugx.org/andrey-helldar/beautiful-phone/license?format=flat-square" alt="License" /></a>
 </p>
 
 
