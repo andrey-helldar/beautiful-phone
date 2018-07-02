@@ -1,6 +1,6 @@
 {
     "name": "andrey-helldar/beautiful-phone",
-    "description": "Formatting a phone number in a beautiful view",
+    "description": "Formatting a phone number into a beautiful view",
     "type": "library",
     "license": "MIT",
     "keywords": ["beautiful-phone", "beautiful", "phone", "formatter"],
@@ -11,8 +11,9 @@
         }
     ],
     "require": {
-        "php": "^5.6|^7.0",
-        "illuminate/support": "^5.4"
+        "php": "^7.1.3",
+        "illuminate/support": "5.6.*",
+        "illuminate/config": "5.6.*"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0"

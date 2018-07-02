@@ -1,6 +1,6 @@
-# Beautiful Phone Formatter for Laravel 5.4+
+# Beautiful Phone Formatter for Laravel 5.6+
 
-Formatting a phone number in a beautiful view.
+Formatting a phone number into a beautiful view.
 
 ![beautiful phone](https://user-images.githubusercontent.com/10347617/40197723-f1da55e6-5a1c-11e8-8b20-f8ecedd5718d.png)
 
@@ -15,7 +15,7 @@ Formatting a phone number in a beautiful view.
 
 ## Attention
 
-To use this package in Laravel 5.4.* versions, use the [v5.4](https://github.com/andrey-helldar/beautiful-phone/tree/v5.4) branch and `1.0` version of this package.
+To use this package in Laravel 5.4 and 5.5 versions, use the [v1.0](https://github.com/andrey-helldar/beautiful-phone/tree/v1.x) version of this package.
 
 
 ## Installation
