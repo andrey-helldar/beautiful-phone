@@ -13,10 +13,11 @@ return [
     ],
 
     /*
-     * Default country code.
+     * Default codes.
      */
 
-    'country_default' => 49,
+    'default_country' => 7,
+    'default_city'    => 812,
 
     /*
      * List of city codes.
@@ -29,20 +30,15 @@ return [
         931, // Russia, Megafon
         924, // Russia, Megafon
         914, // Russia, MTS
-        3022, // Russia, Chita
         812, // Russia, Saint-Petersburg
     ],
 
     /*
-     * Template for plain text and html views.
+     * Templates.
      */
 
-    'template' => '+%s (%s) %s',
-    'template_html' => '<small>+%s (%s)</small> %s',
+    'template_prefix_text' => '+%s (%s) %s',
+    'template_prefix_html' => '<span>+%s (%s)</span> %s',
 
-    /*
-     * Template for link compilation.
-     */
-
-    'link' => "<a href='tel:%s'>%s</a>",
+    'template_link' => "<a href='tel:%s'>%s</a>",
 ];

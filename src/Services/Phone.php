@@ -2,12 +2,12 @@
 
 namespace Helldar\BeautifulPhone\Services;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 class Phone
 {
     /**
-     * @var \Helldar\BeautifulPhone\Services\Config
+     * @var \Illuminate\Support\Collection
      */
     private $config;
 
@@ -16,7 +16,28 @@ class Phone
      */
     public function __construct()
     {
-        $this->config = new Config();
+        $config = config('beautiful_phone', []);
+
+        $this->config = Collection::make($config);
+    }
+
+    public function get($phone, $city_code = 0, $is_html = true, $is_link = true)
+    {
+        $phone_clean = $this->clear($phone);
+        $phone_code  = $this->phoneCode($phone_clean, $city_code);
+        $formatted   = $this->format($phone_clean, $phone_code);
+
+        $template = $is_html ? 'template_prefix_html' : 'template_prefix_text';
+        $template = $this->config->get($template, '+%s (%s) %s');
+        $result   = sprintf($template, $formatted->get('region'), $formatted->get('city'), $formatted->get('phone'));
+
+        if ($is_link) {
+            $template   = $this->config->get('template_link', '<a href="%s">%s</a>');
+            $phone_link = $this->clear($phone_code->implode(''));
+            $result     = sprintf($template, $phone_link, $result);
+        }
+
+        return $result;
     }
 
     /**
@@ -28,7 +49,7 @@ class Phone
      */
     private function convertWords($phone = '')
     {
-        $phone = str_lower($phone);
+        $phone   = str_lower($phone);
         $replace = [
             '2' => ['a', 'b', 'c'],
             '3' => ['d', 'e', 'f'],
@@ -58,7 +79,7 @@ class Phone
     {
         $phone = $this->convertWords($phone);
 
-        return (string) preg_replace("/\D/", '', trim($phone));
+        return (string) preg_replace("/\D/", '', $phone);
     }
 
     /**
@@ -67,14 +88,19 @@ class Phone
      *
      * @param $phone
      * @param $region
+     * @param $city
      *
-     * @return bool|string
+     * @return string
      */
-    private function code($phone, $region)
+    private function code($phone, $region, $city = null)
     {
+        if ($city && starts_with($phone, ($region . $city))) {
+            return $city;
+        }
+
         foreach ($this->config->get('codes', []) as $code) {
             $len_region = strlen($region);
-            $len_code = strlen((string) $code);
+            $len_code   = strlen((string) $code);
 
             if (substr($phone, $len_region, $len_code) === (string) $code) {
                 return (string) $code;
@@ -94,10 +120,10 @@ class Phone
     private function region($phone)
     {
         $codes = $this->config->get('countries', []);
-        $code = substr($phone, 0, 1);
+        $code  = substr($phone, 0, 1);
 
         foreach ($codes as $item) {
-            if (Str::startsWith($phone, $item)) {
+            if (starts_with($phone, $item)) {
                 return $item;
             }
         }
@@ -131,46 +157,30 @@ class Phone
     }
 
     /**
-     * Check the output template parameter of the formatted phone number.
-     *
-     * @param bool $is_html
-     *
-     * @return string
-     */
-    private function template($is_html = true)
-    {
-        $default = $is_html ? '<small>+%s (%s)</small> %s' : '+%s (%s) %s';
-        $name    = $is_html ? 'template_html' : 'template';
-
-        $template = $this->config->get($name, $default);
-
-        if (substr_count($template, '%s') !== 3) {
-            return $default;
-        }
-
-        return $template;
-    }
-
-    /**
      * Attaching the phone code of the city.
      *
      * @param string $phone
-     * @param int    $code
-     * @param bool   $is_html
-     * @param bool   $is_link
+     * @param null|int $code
      *
-     * @return string
+     * @return Collection
      */
-    private function phoneCode($phone, $code = 0, $is_html = true, $is_link = false)
+    private function phoneCode($phone, $code = null)
     {
-        if (!$code || strlen($phone) > 7) {
-            return $is_link ? $phone : '';
+        if (strlen($phone) <= 4) {
+            return collect();
         }
 
-        $default_country = $this->config->get('country_default', '7');
-        $template = !$is_link ? ($is_html ? '<small>+%s (%s)</small> ' : '+%s (%s) ') : '+%s%s';
+        if (strlen($phone) <= 7) {
+            $region = $this->config->get('default_country', 7);
+            $city   = $code ?: $this->config->get('default_city', 7);
 
-        return sprintf($template, $default_country, $code) . ($is_link ? $phone : '');
+            return collect(compact('region', 'city'));
+        }
+
+        $region = $this->region($phone);
+        $city   = $this->code($phone, $region, $code);
+
+        return collect(compact('region', 'city'));
     }
 
     /**
@@ -182,7 +192,7 @@ class Phone
      */
     private function isBeauty($phone)
     {
-        $arr = str_split((string) $phone, 3);
+        $arr       = str_split((string) $phone, 3);
         $is_beauty = $arr[0] === $arr[1];
 
         if (!$is_beauty) {
@@ -190,8 +200,8 @@ class Phone
         }
 
         if (!$is_beauty) {
-            $sum0 = $this->sum($arr[0]);
-            $sum1 = $this->sum($arr[1]);
+            $sum0   = $this->sum($arr[0]);
+            $sum1   = $this->sum($arr[1]);
             $count0 = sizeof(array_unique(str_split((string) $arr[0])));
             $count1 = sizeof(array_unique(str_split((string) $arr[1])));
 
@@ -223,66 +233,46 @@ class Phone
      * Formatting a phone number.
      *
      * @param      $phone
-     * @param int  $phone_code
-     * @param bool $is_html
+     * @param Collection $phone_code
      *
      * @return bool|string
      */
-    private function format($phone, $phone_code = 0, $is_html = true)
+    private function format($phone, $phone_code)
     {
-        $phone = $this->clear((string) $phone);
-        $phone_code = $this->phoneCode($phone, $phone_code, $is_html);
-
         if (strlen($phone) <= 4) {
             return $phone;
         }
 
         if (strlen($phone) == 5) {
-            $arr = str_split(substr($phone, 1), 2);
+            $arr   = str_split(substr($phone, 1), 2);
             $phone = $phone[0] . '-' . implode('-', $arr);
 
-            return $phone_code . $phone;
+            return $phone_code->put('phone', $phone);
         }
 
         if (strlen($phone) == 6) {
             $divider = $this->isBeauty($phone) ? 3 : 2;
+            $phone   = implode('-', str_split($phone, $divider));
 
-            return $phone_code . implode('-', str_split($phone, $divider));
+            return $phone_code->put('phone', $phone);
         }
 
         if (strlen($phone) < 10) {
-            return $phone_code . implode('-', str_split($phone, 3));
+            $phone = implode('-', str_split($phone, 3));
+
+            return $phone_code->put('phone', $phone);
         }
 
-        // Mobile devices.
-        $region = $this->region($phone);
-        $code = $this->code($phone, $region);
-        $phone = substr($phone, strlen($region . $code));
+        // Mobile phones.
+        $prefix = $phone_code->get('region') . $phone_code->get('city');
+        $phone  = substr($phone, strlen($prefix));
 
-        $template = $is_html ? $this->templateHtml() : $this->template();
+        if ($this->isBeauty($phone)) {
+            $phone = implode('-', str_split($phone, 3));
 
-        return sprintf($template, $region, $code, $this->split($phone));
-    }
-
-    /**
-     * Calling the mechanism for formatting the phone number and forming its final form.
-     *
-     * @param mixed $phone
-     * @param int   $phone_code
-     * @param bool  $is_html
-     *
-     * @return bool|string
-     */
-    public function get($phone, $phone_code = 0, $is_html = true)
-    {
-        if (!$is_html) {
-            return $this->format((string) $phone, (string) $phone_code, $is_html);
+            return $phone_code->put('phone', $phone);
         }
 
-        $phone_clean = $this->clear((string) $phone);
-        $phone_link = $this->phoneCode($phone_clean, $phone_code, false, true);
-        $formatted = $this->format((string) $phone, $phone_code, $is_html);
-
-        return sprintf($this->config->get('link'), $phone_link, $formatted);
+        return $phone_code->put('phone', $this->split($phone));
     }
 }

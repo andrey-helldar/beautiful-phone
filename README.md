@@ -1,4 +1,4 @@
-# Beautiful Phone Formatter for Laravel 5.6+
+# Beautiful Phone Formatter for Laravel 5.4+
 
 Formatting a phone number into a beautiful view.
 
@@ -13,14 +13,9 @@ Formatting a phone number into a beautiful view.
 </p>
 
 
-## Attention
-
-To use this package in Laravel 5.4 and 5.5 versions, use the [v1.0](https://github.com/andrey-helldar/beautiful-phone/tree/v1.x) version of this package.
-
-
 ## Installation
 
-To get the latest version of Laravel Beautiful Phone, simply require the project using [Composer](https://getcomposer.org):
+To get the latest version of `Beautiful Phone Formatter`, simply require the project using [Composer](https://getcomposer.org):
 
 ```
 composer require andrey-helldar/beautiful-phone
@@ -53,68 +48,118 @@ Now you can use a `phone()` helper.
 
 ## Using
 
-    return phone('foobar')
-    // returned: <a href='tel:366227'>36-62-27</a>
+### Default parameters:
 
-    return phone('123123')
-    // returned: <a href='tel:123123'>123-123</a>
+```php
+return phone('fooba')
+// returned: <a href='tel:781236622'><span>+7 (812)</span> 3-66-22</a>
 
-    return phone('555555')
-    // returned: <a href='tel:555555'>555-555</a>
+return phone('foobar')
+// returned: <a href='tel:7812366227'><span>+7 (812)</span> 36-62-27</a>
 
-    return phone('71234567890')
-    // returned: <a href='tel:71234567890'><small>+7 (123)</small> 456-78-90</a>
+return phone('123123')
+// returned: <a href='tel:7812123123'><span>+7 (812)</span> 123-123</a>
 
-    return phone('31234567890')
-    // returned: <a href='tel:31234567890'><small>+3 (123)</small> 456-78-90</a>
+return phone('31234567890')
+// returned: <a href='tel:31234567890'><span>+3 (123)</span> 456-789-0</a>
 
-    return phone('+33216549873')
-    // returned: <a href='tel:33216549873'><small>+3 (321)</small> 654-98-73</a>
-    
-    
-If you pass the area code as an attribute:
-(in config: `'country_default' => 49`)
+return phone('+33216549883')
+// returned: <a href='tel:33216549883'><span>+3 (321)</span> 654-98-83</a>
 
-    return phone('foobar', 1234)
-    // returned: <a href='tel:+491234366227'><small>+49 (1234)</small> 36-62-27</a>
-
-    return phone('123123', 1234)
-    // returned: <a href='tel:+491234123123'><small>+49 (1234)</small> 123-123</a>
-
-    return phone('555555', 1234)
-    // returned: <a href='tel:+491234555555'><small>+49 (1234)</small> 555-555</a>
-
-    return phone('71234567890', 1234)
-    // returned: <a href='tel:71234567890'><small>+7 (123)</small> 456-78-90</a>
-
-    return phone('31234567890', 1234)
-    // returned: <a href='tel:31234567890'><small>+3 (123)</small> 456-78-90</a>
-
-    return phone('+33216549873', 1234)
-    // returned: <a href='tel:33216549873'><small>+3 (321)</small> 654-98-73</a>
-
-If we pass into the attribute the prohibition on the formation of a telephone number in html format:
+return phone('+33216665557')
+// returned: <a href='tel:33216665557'><span>+3 (321)</span> 666-555-7</a>
+```
 
 
-    return phone('foobar', 0, false)
-    // returned: 36-62-27
+### With manual applying city code:
 
-    return phone('123123', 0, false)
-    // returned: 123-123
+```php
+return phone('fooba', 1234)
+// returned: <a href='tel:7123436622'><span>+7 (1234)</span> 3-66-22</a>
 
-    return phone('555555', 0, false)
-    // returned: 555-555
+return phone('foobar', 1234)
+// returned: <a href='tel:71234366227'><span>+7 (1234)</span> 36-62-27</a>
 
-    return phone('71234567890', 0, false)
-    // returned: +7 (123) 456-78-90
+return phone('123123', 1234)
+// returned: <a href='tel:71234123123'><span>+7 (1234)</span> 123-123</a>
 
-    return phone('31234567890', 0, false)
-    // returned: +3 (123) 456-78-90
+return phone('31234567890', 1234)
+// returned: <a href='tel:31234567890'><span>+3 (1234)</span> 567-890</a>
 
-    return phone('+33216549873', 0, false)
-    // returned: +3 (321) 654-98-73
+return phone('+33216549883', 1234)
+// returned: <a href='tel:33216549883'><span>+3 (321)</span> 654-98-83</a>
+
+return phone('+33216665557', 1234)
+// returned: <a href='tel:33216665557'><span>+3 (321)</span> 666-555-7</a>
+```
+
+### With disabled html formatting into phone number:
+
+```php
+return phone('fooba', 0, false)
+// returned: <a href='tel:781236622'>+7 (812) 3-66-22</a>
+
+return phone('foobar', 0, false)
+// returned: <a href='tel:7812366227'>+7 (812) 36-62-27</a>
+
+return phone('123123', 0, false)
+// returned: <a href='tel:7812123123'>+7 (812) 123-123</a>
+
+return phone('31234567890', 0, false)
+// returned: <a href='tel:31234567890'>+3 (123) 456-789-0</a>
+
+return phone('+33216549883', 0, false)
+// returned: <a href='tel:33216549883'>+3 (321) 654-98-83</a>
+
+return phone('+33216665557', 0, false)
+// returned: <a href='tel:33216665557'>+3 (321) 666-555-7</a>
+```
+
+### With enabled html formatting and disabled `is_link` parameter into phone number:
+
+```php
+return phone('fooba', 0, true, false)
+// returned: <span>+7 (812)</span> 3-66-22
+
+return phone('foobar', 0, true, false)
+// returned: <span>+7 (812)</span> 36-62-27
+
+return phone('123123', 0, true, false)
+// returned: <span>+7 (812)</span> 123-123
+
+return phone('31234567890', 0, true, false)
+// returned: <span>+3 (123)</span> 456-789-0
+
+return phone('+33216549883', 0, true, false)
+// returned: <span>+3 (321)</span> 654-98-83
+
+return phone('+33216665557', 0, true, false)
+// returned: <span>+3 (321)</span> 666-555-7
+```
+
+### With disabled html formatting and `is_link` parameter into phone number:
+
+```php
+return phone('fooba', 0, false, false)
+// returned: +7 (812) 3-66-22
+
+return phone('foobar', 0, false, false)
+// returned: +7 (812) 36-62-27
+
+return phone('123123', 0, false, false)
+// returned: +7 (812) 123-123
+
+return phone('31234567890', 0, false, false)
+// returned: +3 (123) 456-789-0
+
+return phone('+33216549883', 0, false, false)
+// returned: +3 (321) 654-98-83
+
+return phone('+33216665557', 0, false, false)
+// returned: +3 (321) 666-555-7
+```
 
 
 ## Copyright and License
 
-`Laravel Beautiful Phone` was written by Andrey Helldar for the Laravel Framework 5.4 and later, and is released under the [MIT LICENSE](LICENSE).
+`Beautiful Phone Formatter` was written by Andrey Helldar for the Laravel Framework 5.4 and later, and is released under the [MIT LICENSE](LICENSE).
