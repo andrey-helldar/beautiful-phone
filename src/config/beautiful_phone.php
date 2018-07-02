@@ -17,7 +17,7 @@ return [
      */
 
     'default_country' => 7,
-    'default_city'    => 812,
+    'default_city' => 812,
 
     /*
      * List of city codes.
