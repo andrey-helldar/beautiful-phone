@@ -133,29 +133,16 @@ class Phone
     /**
      * Check the output template parameter of the formatted phone number.
      *
-     * @return string
-     */
-    private function template()
-    {
-        $default = '+%s (%s) %s';
-        $template = $this->config->get('template', $default);
-
-        if (substr_count($template, '%s') !== 3) {
-            return $default;
-        }
-
-        return $template;
-    }
-
-    /**
-     * Check the html template parameter of the output of the formatted phone number.
+     * @param bool $is_html
      *
      * @return string
      */
-    private function templateHtml()
+    private function template($is_html = true)
     {
-        $default = '<small>+%s (%s)</small> %s';
-        $template = $this->config->get('template_html', $default);
+        $default = $is_html ? '<small>+%s (%s)</small> %s' : '+%s (%s) %s';
+        $name    = $is_html ? 'template_html' : 'template';
+
+        $template = $this->config->get($name, $default);
 
         if (substr_count($template, '%s') !== 3) {
             return $default;
