@@ -112,4 +112,4 @@ If we pass into the attribute the prohibition on the formation of a telephone nu
 
 ## Copyright and License
 
-`Laravel Beautiful Phone` was written by Andrey Helldar for the Laravel Framework 5.4 and later, and is released under the MIT License. See the [LICENSE](LICENSE) file for details.
+`Laravel Beautiful Phone` was written by Andrey Helldar for the Laravel Framework 5.4 and later, and is released under the [MIT LICENSE](LICENSE).
