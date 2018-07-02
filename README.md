@@ -13,6 +13,11 @@ Formatting a phone number in a beautiful view.
 </p>
 
 
+## Attention
+
+To use this package in Laravel 5.4.* versions, use the [v5.4](https://github.com/andrey-helldar/beautiful-phone/tree/v5.4) branch and `1.0` version of this package.
+
+
 ## Installation
 
 To get the latest version of Laravel Beautiful Phone, simply require the project using [Composer](https://getcomposer.org):
