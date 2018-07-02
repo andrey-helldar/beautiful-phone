@@ -5,7 +5,7 @@ if (!function_exists('phone')) {
      * {@inheritdoc}
      *
      * @param $phone
-     * @param int $phone_code
+     * @param int  $phone_code
      * @param bool $is_html
      * @param bool $is_link
      *
@@ -35,8 +35,8 @@ if (!function_exists('starts_with')) {
     /**
      * Determine if a given string starts with a given substring.
      *
-     * @param  string $haystack
-     * @param  string|array $needles
+     * @param string       $haystack
+     * @param string|array $needles
      *
      * @return bool
      */
@@ -56,8 +56,8 @@ if (!function_exists('str_start')) {
     /**
      * Begin a string with a single instance of a given value.
      *
-     * @param  string $value
-     * @param  string $prefix
+     * @param string $value
+     * @param string $prefix
      *
      * @return string
      */
@@ -73,8 +73,8 @@ if (!function_exists('str_finish')) {
     /**
      * Cap a string with a single instance of a given value.
      *
-     * @param  string $value
-     * @param  string $cap
+     * @param string $value
+     * @param string $cap
      *
      * @return string
      */

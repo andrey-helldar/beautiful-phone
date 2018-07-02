@@ -24,17 +24,17 @@ class Phone
     public function get($phone, $city_code = 0, $is_html = true, $is_link = true)
     {
         $phone_clean = $this->clear($phone);
-        $phone_code  = $this->phoneCode($phone_clean, $city_code);
-        $formatted   = $this->format($phone_clean, $phone_code);
+        $phone_code = $this->phoneCode($phone_clean, $city_code);
+        $formatted = $this->format($phone_clean, $phone_code);
 
         $template = $is_html ? 'template_prefix_html' : 'template_prefix_text';
         $template = $this->config->get($template, '+%s (%s) %s');
-        $result   = sprintf($template, $formatted->get('region'), $formatted->get('city'), $formatted->get('phone'));
+        $result = sprintf($template, $formatted->get('region'), $formatted->get('city'), $formatted->get('phone'));
 
         if ($is_link) {
-            $template   = $this->config->get('template_link', '<a href="%s">%s</a>');
+            $template = $this->config->get('template_link', '<a href="%s">%s</a>');
             $phone_link = $this->clear($phone_code->implode(''));
-            $result     = sprintf($template, $phone_link, $result);
+            $result = sprintf($template, $phone_link, $result);
         }
 
         return $result;
@@ -49,7 +49,7 @@ class Phone
      */
     private function convertWords($phone = '')
     {
-        $phone   = str_lower($phone);
+        $phone = str_lower($phone);
         $replace = [
             '2' => ['a', 'b', 'c'],
             '3' => ['d', 'e', 'f'],
@@ -100,7 +100,7 @@ class Phone
 
         foreach ($this->config->get('codes', []) as $code) {
             $len_region = strlen($region);
-            $len_code   = strlen((string) $code);
+            $len_code = strlen((string) $code);
 
             if (substr($phone, $len_region, $len_code) === (string) $code) {
                 return (string) $code;
@@ -120,7 +120,7 @@ class Phone
     private function region($phone)
     {
         $codes = $this->config->get('countries', []);
-        $code  = substr($phone, 0, 1);
+        $code = substr($phone, 0, 1);
 
         foreach ($codes as $item) {
             if (starts_with($phone, $item)) {
@@ -159,7 +159,7 @@ class Phone
     /**
      * Attaching the phone code of the city.
      *
-     * @param string $phone
+     * @param string   $phone
      * @param null|int $code
      *
      * @return Collection
@@ -172,13 +172,13 @@ class Phone
 
         if (strlen($phone) <= 7) {
             $region = $this->config->get('default_country', 7);
-            $city   = $code ?: $this->config->get('default_city', 7);
+            $city = $code ?: $this->config->get('default_city', 7);
 
             return collect(compact('region', 'city'));
         }
 
         $region = $this->region($phone);
-        $city   = $this->code($phone, $region, $code);
+        $city = $this->code($phone, $region, $code);
 
         return collect(compact('region', 'city'));
     }
@@ -192,7 +192,7 @@ class Phone
      */
     private function isBeauty($phone)
     {
-        $arr       = str_split((string) $phone, 3);
+        $arr = str_split((string) $phone, 3);
         $is_beauty = $arr[0] === $arr[1];
 
         if (!$is_beauty) {
@@ -200,8 +200,8 @@ class Phone
         }
 
         if (!$is_beauty) {
-            $sum0   = $this->sum($arr[0]);
-            $sum1   = $this->sum($arr[1]);
+            $sum0 = $this->sum($arr[0]);
+            $sum1 = $this->sum($arr[1]);
             $count0 = sizeof(array_unique(str_split((string) $arr[0])));
             $count1 = sizeof(array_unique(str_split((string) $arr[1])));
 
@@ -232,7 +232,7 @@ class Phone
     /**
      * Formatting a phone number.
      *
-     * @param      $phone
+     * @param            $phone
      * @param Collection $phone_code
      *
      * @return bool|string
@@ -244,7 +244,7 @@ class Phone
         }
 
         if (strlen($phone) == 5) {
-            $arr   = str_split(substr($phone, 1), 2);
+            $arr = str_split(substr($phone, 1), 2);
             $phone = $phone[0] . '-' . implode('-', $arr);
 
             return $phone_code->put('phone', $phone);
@@ -252,7 +252,7 @@ class Phone
 
         if (strlen($phone) == 6) {
             $divider = $this->isBeauty($phone) ? 3 : 2;
-            $phone   = implode('-', str_split($phone, $divider));
+            $phone = implode('-', str_split($phone, $divider));
 
             return $phone_code->put('phone', $phone);
         }
@@ -265,7 +265,7 @@ class Phone
 
         // Mobile phones.
         $prefix = $phone_code->get('region') . $phone_code->get('city');
-        $phone  = substr($phone, strlen($prefix));
+        $phone = substr($phone, strlen($prefix));
 
         if ($this->isBeauty($phone)) {
             $phone = implode('-', str_split($phone, 3));
