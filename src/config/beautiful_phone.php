@@ -31,6 +31,7 @@ return [
         924, // Russia, Megafon
         914, // Russia, MTS
         812, // Russia, Saint-Petersburg
+        495, // Russia, Moscow
     ],
 
     /*
