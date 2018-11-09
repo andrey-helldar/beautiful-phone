@@ -45,6 +45,7 @@ class Phone
         if ($is_link) {
             $template   = $this->config->get('template_link', '<a href="%s">%s</a>');
             $phone_link = $this->clear($phone_code->implode(''));
+            $phone_link = Str::start($phone_link, '+');
             $result     = sprintf($template, $phone_link, $result);
         }
 

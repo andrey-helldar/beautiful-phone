@@ -55,22 +55,22 @@ return phone('4567')
 // returned: <a href='tel:4567'>4567</a>
 
 return phone('fooba')
-// returned: <a href='tel:781236622'><span>+7 (812)</span> 3-66-22</a>
+// returned: <a href='tel:+781236622'><span>+7 (812)</span> 3-66-22</a>
 
 return phone('foobar')
-// returned: <a href='tel:7812366227'><span>+7 (812)</span> 36-62-27</a>
+// returned: <a href='tel:+7812366227'><span>+7 (812)</span> 36-62-27</a>
 
 return phone('123123')
-// returned: <a href='tel:7812123123'><span>+7 (812)</span> 123-123</a>
+// returned: <a href='tel:+7812123123'><span>+7 (812)</span> 123-123</a>
 
 return phone('31234567890')
-// returned: <a href='tel:31234567890'><span>+3 (123)</span> 456-789-0</a>
+// returned: <a href='tel:+31234567890'><span>+3 (123)</span> 456-789-0</a>
 
 return phone('+33216549883')
-// returned: <a href='tel:33216549883'><span>+3 (321)</span> 654-98-83</a>
+// returned: <a href='tel:+33216549883'><span>+3 (321)</span> 654-98-83</a>
 
 return phone('+33216665557')
-// returned: <a href='tel:33216665557'><span>+3 (321)</span> 666-555-7</a>
+// returned: <a href='tel:+33216665557'><span>+3 (321)</span> 666-555-7</a>
 ```
 
 
@@ -81,22 +81,22 @@ return phone('4567', 1234)
 // returned: <a href='tel:4567'>4567</a>
 
 return phone('fooba', 1234)
-// returned: <a href='tel:7123436622'><span>+7 (1234)</span> 3-66-22</a>
+// returned: <a href='tel:+7123436622'><span>+7 (1234)</span> 3-66-22</a>
 
 return phone('foobar', 1234)
-// returned: <a href='tel:71234366227'><span>+7 (1234)</span> 36-62-27</a>
+// returned: <a href='tel:+71234366227'><span>+7 (1234)</span> 36-62-27</a>
 
 return phone('123123', 1234)
-// returned: <a href='tel:71234123123'><span>+7 (1234)</span> 123-123</a>
+// returned: <a href='tel:+71234123123'><span>+7 (1234)</span> 123-123</a>
 
 return phone('31234567890', 1234)
-// returned: <a href='tel:31234567890'><span>+3 (1234)</span> 567-890</a>
+// returned: <a href='tel:+31234567890'><span>+3 (1234)</span> 567-890</a>
 
 return phone('+33216549883', 1234)
-// returned: <a href='tel:33216549883'><span>+3 (321)</span> 654-98-83</a>
+// returned: <a href='tel:+33216549883'><span>+3 (321)</span> 654-98-83</a>
 
 return phone('+33216665557', 1234)
-// returned: <a href='tel:33216665557'><span>+3 (321)</span> 666-555-7</a>
+// returned: <a href='tel:+33216665557'><span>+3 (321)</span> 666-555-7</a>
 ```
 
 ### With disabled html formatting into phone number:
@@ -106,22 +106,22 @@ return phone('4567', 0, false)
 // returned: <a href='tel:4567'>4567</a>
 
 return phone('fooba', 0, false)
-// returned: <a href='tel:781236622'>+7 (812) 3-66-22</a>
+// returned: <a href='tel:+781236622'>+7 (812) 3-66-22</a>
 
 return phone('foobar', 0, false)
-// returned: <a href='tel:7812366227'>+7 (812) 36-62-27</a>
+// returned: <a href='tel:+7812366227'>+7 (812) 36-62-27</a>
 
 return phone('123123', 0, false)
-// returned: <a href='tel:7812123123'>+7 (812) 123-123</a>
+// returned: <a href='tel:+7812123123'>+7 (812) 123-123</a>
 
 return phone('31234567890', 0, false)
-// returned: <a href='tel:31234567890'>+3 (123) 456-789-0</a>
+// returned: <a href='tel:+31234567890'>+3 (123) 456-789-0</a>
 
 return phone('+33216549883', 0, false)
-// returned: <a href='tel:33216549883'>+3 (321) 654-98-83</a>
+// returned: <a href='tel:+33216549883'>+3 (321) 654-98-83</a>
 
 return phone('+33216665557', 0, false)
-// returned: <a href='tel:33216665557'>+3 (321) 666-555-7</a>
+// returned: <a href='tel:+33216665557'>+3 (321) 666-555-7</a>
 ```
 
 ### With enabled html formatting and disabled `is_link` parameter into phone number:
