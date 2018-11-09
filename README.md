@@ -26,7 +26,7 @@ Instead, you may of course manually update your require block and run `composer 
 ```json
 {
     "require": {
-        "andrey-helldar/beautiful-phone": "^1.1"
+        "andrey-helldar/beautiful-phone": "^1.2"
     }
 }
 ```
@@ -43,7 +43,7 @@ You can also publish the config file to change implementations (ie. interface to
 php artisan vendor:publish --provider="Helldar\BeautifulPhone\ServiceProvider"
 ```
 
-Now you can use a `phone()` helper.
+Now you can use a `phone()` or `app('phone)` helpers.
 
 
 ## Using
@@ -71,6 +71,12 @@ return phone('+33216549883')
 
 return phone('+33216665557')
 // returned: <a href='tel:+33216665557'><span>+3 (321)</span> 666-555-7</a>
+
+return phone('+73216665557')
+// returned: <a href='tel:+73216665557'><span>+7 (321)</span> 666-555-7</a>
+
+return phone('+83216665557')
+// returned: <a href='tel:+73216665557'><span>+7 (321)</span> 666-555-7</a>
 ```
 
 
@@ -97,6 +103,12 @@ return phone('+33216549883', 1234)
 
 return phone('+33216665557', 1234)
 // returned: <a href='tel:+33216665557'><span>+3 (321)</span> 666-555-7</a>
+
+return phone('+73216665557', 1234)
+// returned: <a href='tel:+73216665557'><span>+7 (321)</span> 666-555-7</a>
+
+return phone('+83216665557', 1234)
+// returned: <a href='tel:+73216665557'><span>+7 (321)</span> 666-555-7</a>
 ```
 
 ### With disabled html formatting into phone number:
@@ -122,6 +134,12 @@ return phone('+33216549883', 0, false)
 
 return phone('+33216665557', 0, false)
 // returned: <a href='tel:+33216665557'>+3 (321) 666-555-7</a>
+
+return phone('+73216665557', 0, false)
+// returned: <a href='tel:+73216665557'>+7 (321) 666-555-7</a>
+
+return phone('+83216665557', 0, false)
+// returned: <a href='tel:+73216665557'>+7 (321) 666-555-7</a>
 ```
 
 ### With enabled html formatting and disabled `is_link` parameter into phone number:
@@ -147,6 +165,12 @@ return phone('+33216549883', 0, true, false)
 
 return phone('+33216665557', 0, true, false)
 // returned: <span>+3 (321)</span> 666-555-7
+
+return phone('+73216665557', 0, true, false)
+// returned: <span>+7 (321)</span> 666-555-7
+
+return phone('+83216665557', 0, true, false)
+// returned: <span>+7 (321)</span> 666-555-7
 ```
 
 ### With disabled html formatting and `is_link` parameter into phone number:
@@ -172,6 +196,12 @@ return phone('+33216549883', 0, false, false)
 
 return phone('+33216665557', 0, false, false)
 // returned: +3 (321) 666-555-7
+
+return phone('+73216665557', 0, false, false)
+// returned: +7 (321) 666-555-7
+
+return phone('+83216665557', 0, false, false)
+// returned: +7 (321) 666-555-7
 ```
 
 
