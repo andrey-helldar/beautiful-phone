@@ -13,6 +13,14 @@ return [
     ],
 
     /*
+     * List of country code replacements
+     */
+
+    'replaces_country' => [
+        8 => 7,
+    ],
+
+    /*
      * Default codes.
      */
 

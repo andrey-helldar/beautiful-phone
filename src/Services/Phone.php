@@ -20,6 +20,14 @@ class Phone
         $this->config = Collection::make($config);
     }
 
+    /**
+     * @param string $phone
+     * @param int $city_code
+     * @param bool $is_html
+     * @param bool $is_link
+     *
+     * @return string
+     */
     public function get($phone, $city_code = 0, $is_html = true, $is_link = true)
     {
         $phone_clean = $this->clear($phone);
@@ -123,11 +131,27 @@ class Phone
 
         foreach ($codes as $item) {
             if (Str::startsWith($phone, $item)) {
-                return $item;
+                return $this->replaceRegion($item);
             }
         }
 
-        return $code;
+        return $this->replaceRegion($code);
+    }
+
+    /**
+     * @param string|int $value
+     *
+     * @return int
+     */
+    private function replaceRegion($value)
+    {
+        $regions = $this->config->get('replaces_country', []);
+
+        if ($result = array_key_exists($value, $regions)) {
+            return (int) $regions[$value];
+        }
+
+        return (int) $value;
     }
 
     /**
