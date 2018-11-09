@@ -54,8 +54,8 @@ class PhoneTest extends TestCase
         $this->assertEquals("<a href='tel:+73216665557'>+7 (321) 666-555-7</a>", app('phone')->get('+83216665557', 0, false));
 
         // With enabled html formatting and disabled `is_link` parameter into phone number:
-        $this->assertEquals("456", app('phone')->get('456', 0, true, false));
-        $this->assertEquals("1234", app('phone')->get('1234', 0, true, false));
+        $this->assertEquals('456', app('phone')->get('456', 0, true, false));
+        $this->assertEquals('1234', app('phone')->get('1234', 0, true, false));
         $this->assertEquals('<span>+7 (812)</span> 3-66-22', app('phone')->get('fooba', 0, true, false));
         $this->assertEquals('<span>+7 (812)</span> 36-62-27', app('phone')->get('foobar', 0, true, false));
         $this->assertEquals('<span>+7 (812)</span> 123-123', app('phone')->get('123123', 0, true, false));
@@ -66,8 +66,8 @@ class PhoneTest extends TestCase
         $this->assertEquals('<span>+7 (321)</span> 666-555-7', app('phone')->get('+83216665557', 0, true, false));
 
         // With disabled html formatting and `is_link` parameter into phone number:
-        $this->assertEquals("456", app('phone')->get('456', 0, false, false));
-        $this->assertEquals("1234", app('phone')->get('1234', 0, false, false));
+        $this->assertEquals('456', app('phone')->get('456', 0, false, false));
+        $this->assertEquals('1234', app('phone')->get('1234', 0, false, false));
         $this->assertEquals('+7 (812) 3-66-22', app('phone')->get('fooba', 0, false, false));
         $this->assertEquals('+7 (812) 36-62-27', app('phone')->get('foobar', 0, false, false));
         $this->assertEquals('+7 (812) 123-123', app('phone')->get('123123', 0, false, false));
