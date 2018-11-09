@@ -3,6 +3,8 @@
 namespace Helldar\BeautifulPhone\Services;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 
 class Phone
 {
@@ -16,7 +18,7 @@ class Phone
      */
     public function __construct()
     {
-        $config = config('beautiful_phone', []);
+        $config = Config::config('beautiful_phone', []);
 
         $this->config = Collection::make($config);
     }
@@ -49,7 +51,7 @@ class Phone
      */
     private function convertWords($phone = '')
     {
-        $phone   = str_lower($phone);
+        $phone   = Str::lower($phone);
         $replace = [
             '2' => ['a', 'b', 'c'],
             '3' => ['d', 'e', 'f'],
@@ -94,7 +96,7 @@ class Phone
      */
     private function code($phone, $region, $city = null)
     {
-        if ($city && starts_with($phone, ($region . $city))) {
+        if ($city && Str::startsWith($phone, ($region . $city))) {
             return $city;
         }
 
@@ -123,7 +125,7 @@ class Phone
         $code  = substr($phone, 0, 1);
 
         foreach ($codes as $item) {
-            if (starts_with($phone, $item)) {
+            if (Str::startsWith($phone, $item)) {
                 return $item;
             }
         }
@@ -159,7 +161,7 @@ class Phone
     /**
      * Attaching the phone code of the city.
      *
-     * @param string   $phone
+     * @param string $phone
      * @param null|int $code
      *
      * @return Collection
@@ -235,7 +237,7 @@ class Phone
      * @param            $phone
      * @param Collection $phone_code
      *
-     * @return bool|string
+     * @return string
      */
     private function format($phone, $phone_code)
     {
