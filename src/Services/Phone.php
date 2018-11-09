@@ -13,12 +13,9 @@ class Phone
      */
     private $config;
 
-    /**
-     * Phone constructor.
-     */
     public function __construct()
     {
-        $config = Config::config('beautiful_phone', []);
+        $config = Config::get('beautiful_phone', []);
 
         $this->config = Collection::make($config);
     }
@@ -101,15 +98,15 @@ class Phone
         }
 
         foreach ($this->config->get('codes', []) as $code) {
-            $len_region = strlen($region);
-            $len_code   = strlen((string) $code);
+            $len_region = Str::length($region);
+            $len_code   = Str::length((string) $code);
 
-            if (substr($phone, $len_region, $len_code) === (string) $code) {
+            if (Str::substr($phone, $len_region, $len_code) === (string) $code) {
                 return (string) $code;
             }
         }
 
-        return substr($phone, 1, 3);
+        return Str::substr($phone, 1, 3);
     }
 
     /**
@@ -122,7 +119,7 @@ class Phone
     private function region($phone)
     {
         $codes = $this->config->get('countries', []);
-        $code  = substr($phone, 0, 1);
+        $code  = Str::substr($phone, 0, 1);
 
         foreach ($codes as $item) {
             if (Str::startsWith($phone, $item)) {
@@ -142,15 +139,15 @@ class Phone
      */
     private function split($phone)
     {
-        $length = strlen((string) $phone);
+        $length = Str::length((string) $phone);
 
         if ($length <= 4) {
             return $phone;
         }
 
         if ($length == 7) {
-            $tmp = [substr($phone, 0, 3)];
-            $tmp = array_merge($tmp, str_split(substr($phone, 3), 2));
+            $tmp = [Str::substr($phone, 0, 3)];
+            $tmp = array_merge($tmp, str_split(Str::substr($phone, 3), 2));
 
             return implode('-', $tmp);
         }
@@ -168,11 +165,11 @@ class Phone
      */
     private function phoneCode($phone, $code = null)
     {
-        if (strlen($phone) <= 4) {
+        if (Str::length($phone) <= 4) {
             return collect();
         }
 
-        if (strlen($phone) <= 7) {
+        if (Str::length($phone) <= 7) {
             $region = $this->config->get('default_country', 7);
             $city   = $code ?: $this->config->get('default_city', 7);
 
@@ -234,32 +231,32 @@ class Phone
     /**
      * Formatting a phone number.
      *
-     * @param            $phone
-     * @param Collection $phone_code
+     * @param mixed $phone
+     * @param \Illuminate\Support\Collection $phone_code
      *
-     * @return string
+     * @return \Illuminate\Support\Collection
      */
     private function format($phone, $phone_code)
     {
-        if (strlen($phone) <= 4) {
-            return $phone;
+        if (Str::length($phone) <= 4) {
+            return collect(compact('phone'));
         }
 
-        if (strlen($phone) == 5) {
+        if (Str::length($phone) == 5) {
             $arr   = str_split(substr($phone, 1), 2);
             $phone = $phone[0] . '-' . implode('-', $arr);
 
             return $phone_code->put('phone', $phone);
         }
 
-        if (strlen($phone) == 6) {
+        if (Str::length($phone) == 6) {
             $divider = $this->isBeauty($phone) ? 3 : 2;
             $phone   = implode('-', str_split($phone, $divider));
 
             return $phone_code->put('phone', $phone);
         }
 
-        if (strlen($phone) < 10) {
+        if (Str::length($phone) < 10) {
             $phone = implode('-', str_split($phone, 3));
 
             return $phone_code->put('phone', $phone);
@@ -267,7 +264,7 @@ class Phone
 
         // Mobile phones.
         $prefix = $phone_code->get('region') . $phone_code->get('city');
-        $phone  = substr($phone, strlen($prefix));
+        $phone  = Str::substr($phone, Str::length($prefix));
 
         if ($this->isBeauty($phone)) {
             $phone = implode('-', str_split($phone, 3));
