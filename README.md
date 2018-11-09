@@ -51,6 +51,9 @@ Now you can use a `phone()` helper.
 ### Default parameters:
 
 ```php
+return phone('4567')
+// returned: <a href='tel:4567'>4567</a>
+
 return phone('fooba')
 // returned: <a href='tel:781236622'><span>+7 (812)</span> 3-66-22</a>
 
@@ -74,6 +77,9 @@ return phone('+33216665557')
 ### With manual applying city code:
 
 ```php
+return phone('4567', 1234)
+// returned: <a href='tel:4567'>4567</a>
+
 return phone('fooba', 1234)
 // returned: <a href='tel:7123436622'><span>+7 (1234)</span> 3-66-22</a>
 
@@ -96,6 +102,9 @@ return phone('+33216665557', 1234)
 ### With disabled html formatting into phone number:
 
 ```php
+return phone('4567', 0, false)
+// returned: <a href='tel:4567'>4567</a>
+
 return phone('fooba', 0, false)
 // returned: <a href='tel:781236622'>+7 (812) 3-66-22</a>
 
@@ -118,6 +127,9 @@ return phone('+33216665557', 0, false)
 ### With enabled html formatting and disabled `is_link` parameter into phone number:
 
 ```php
+return phone('4567', 0, true, false)
+// returned: 4567
+
 return phone('fooba', 0, true, false)
 // returned: <span>+7 (812)</span> 3-66-22
 
@@ -140,6 +152,9 @@ return phone('+33216665557', 0, true, false)
 ### With disabled html formatting and `is_link` parameter into phone number:
 
 ```php
+return phone('4567', 0, false, false)
+// returned: 4567
+
 return phone('fooba', 0, false, false)
 // returned: +7 (812) 3-66-22
 

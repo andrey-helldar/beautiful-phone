@@ -34,6 +34,10 @@ class Phone
         $phone_code  = $this->phoneCode($phone_clean, $city_code);
         $formatted   = $this->format($phone_clean, $phone_code);
 
+        if ($result = $this->getShortPhone($formatted, $is_html, $is_link)) {
+            return $result;
+        }
+
         $template = $is_html ? 'template_prefix_html' : 'template_prefix_text';
         $template = $this->config->get($template, '+%s (%s) %s');
         $result   = sprintf($template, $formatted->get('region'), $formatted->get('city'), $formatted->get('phone'));
@@ -45,6 +49,23 @@ class Phone
         }
 
         return $result;
+    }
+
+    private function getShortPhone(Collection $formatted, $is_html = true, $is_link = true)
+    {
+        $phone = $formatted->get('phone');
+
+        if (Str::length((string) $phone) > 4) {
+            return false;
+        }
+
+        if (($is_html && $is_link) || (!$is_html && $is_link)) {
+            $template = $this->config->get('template_link', '%s');
+
+            return sprintf($template, $phone, $phone);
+        }
+
+        return $phone;
     }
 
     /**
