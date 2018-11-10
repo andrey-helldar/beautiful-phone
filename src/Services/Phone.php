@@ -169,7 +169,7 @@ class Phone
     {
         $regions = $this->config->get('replaces_country', []);
 
-        if ($result = array_key_exists($value, $regions)) {
+        if (array_key_exists($value, $regions)) {
             return (int) $regions[$value];
         }
 
