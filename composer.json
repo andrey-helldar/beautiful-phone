@@ -17,6 +17,9 @@
     "require-dev": {
         "orchestra/testbench": "~3.0"
     },
+    "suggest": {
+        "symfony/thanks": "Give thanks (in the form of a GitHub) to your fellow PHP package maintainers"
+    },
     "autoload": {
         "psr-4": {
             "Helldar\\BeautifulPhone\\": "src/"
