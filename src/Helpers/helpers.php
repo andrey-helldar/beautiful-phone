@@ -13,6 +13,6 @@ if (!function_exists('phone')) {
      */
     function phone($phone, $phone_code = 0, $is_html = true, $is_link = true)
     {
-        return app('phone')->get($phone, $phone_code, $is_html, $is_link);
+        return \app('phone')->get($phone, $phone_code, $is_html, $is_link);
     }
 }

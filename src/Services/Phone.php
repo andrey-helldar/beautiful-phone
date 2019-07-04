@@ -40,13 +40,13 @@ class Phone
 
         $template = $is_html ? 'template_prefix_html' : 'template_prefix_text';
         $template = $this->config->get($template, '+%s (%s) %s');
-        $result   = sprintf($template, $formatted->get('region'), $formatted->get('city'), $formatted->get('phone'));
+        $result   = \sprintf($template, $formatted->get('region'), $formatted->get('city'), $formatted->get('phone'));
 
         if ($is_link) {
             $template   = $this->config->get('template_link', '<a href="%s">%s</a>');
             $phone_link = $this->clear($phone_code->implode(''));
             $phone_link = Str::start($phone_link, '+');
-            $result     = sprintf($template, $phone_link, $result);
+            $result     = \sprintf($template, $phone_link, $result);
         }
 
         return $result;
@@ -54,16 +54,16 @@ class Phone
 
     private function getShortPhone(Collection $formatted, $is_html = true, $is_link = true)
     {
-        $phone = $formatted->get('phone');
+        $phone = (string) $formatted->get('phone');
 
-        if (Str::length((string) $phone) > 4) {
+        if (Str::length($phone) > 4) {
             return false;
         }
 
         if (($is_html && $is_link) || (!$is_html && $is_link)) {
             $template = $this->config->get('template_link', '%s');
 
-            return sprintf($template, $phone, $phone);
+            return \sprintf($template, $phone, $phone);
         }
 
         return $phone;
@@ -91,7 +91,7 @@ class Phone
         ];
 
         foreach ($replace as $digit => $letters) {
-            $phone = str_ireplace($letters, $digit, $phone);
+            $phone = \str_ireplace($letters, $digit, $phone);
         }
 
         return (string) $phone;
@@ -108,7 +108,7 @@ class Phone
     {
         $phone = $this->convertWords($phone);
 
-        return (string) preg_replace("/\D/", '', $phone);
+        return (string) \preg_replace("/\D/", '', $phone);
     }
 
     /**
@@ -169,7 +169,7 @@ class Phone
     {
         $regions = $this->config->get('replaces_country', []);
 
-        if (array_key_exists($value, $regions)) {
+        if (\array_key_exists($value, $regions)) {
             return (int) $regions[$value];
         }
 
@@ -193,12 +193,12 @@ class Phone
 
         if ($length == 7) {
             $tmp = [Str::substr($phone, 0, 3)];
-            $tmp = array_merge($tmp, str_split(Str::substr($phone, 3), 2));
+            $tmp = \array_merge($tmp, \str_split(Str::substr($phone, 3), 2));
 
-            return implode('-', $tmp);
+            return \implode('-', $tmp);
         }
 
-        return implode('-', str_split($phone, 3));
+        return \implode('-', \str_split($phone, 3));
     }
 
     /**
@@ -212,20 +212,20 @@ class Phone
     private function phoneCode($phone, $code = null)
     {
         if (Str::length($phone) <= 4) {
-            return collect();
+            return Collection::make();
         }
 
         if (Str::length($phone) <= 7) {
             $region = $this->config->get('default_country', 7);
             $city   = $code ?: $this->config->get('default_city', 7);
 
-            return collect(compact('region', 'city'));
+            return Collection::make(\compact('region', 'city'));
         }
 
         $region = $this->region($phone);
         $city   = $this->code($phone, $region, $code);
 
-        return collect(compact('region', 'city'));
+        return Collection::make(\compact('region', 'city'));
     }
 
     /**
@@ -237,7 +237,7 @@ class Phone
      */
     private function isBeauty($phone)
     {
-        $arr       = str_split((string) $phone, 3);
+        $arr       = \str_split((string) $phone, 3);
         $is_beauty = $arr[0] === $arr[1];
 
         if (!$is_beauty) {
@@ -247,8 +247,8 @@ class Phone
         if (!$is_beauty) {
             $sum0   = $this->sum($arr[0]);
             $sum1   = $this->sum($arr[1]);
-            $count0 = sizeof(array_unique(str_split((string) $arr[0])));
-            $count1 = sizeof(array_unique(str_split((string) $arr[1])));
+            $count0 = \sizeof(\array_unique(\str_split((string) $arr[0])));
+            $count1 = \sizeof(\array_unique(\str_split((string) $arr[1])));
 
             $is_beauty = ($sum0 == $sum1) || ($count0 === 1 && $count1 === 1);
         }
@@ -269,7 +269,7 @@ class Phone
             return (int) $digit;
         }
 
-        $sum = array_sum(str_split((string) $digit, 1));
+        $sum = \array_sum(\str_split((string) $digit, 1));
 
         return (int) ($sum >= 10 ? $this->sum($sum) : $sum);
     }
@@ -285,25 +285,25 @@ class Phone
     private function format($phone, $phone_code)
     {
         if (Str::length($phone) <= 4) {
-            return collect(compact('phone'));
+            return Collection::make(\compact('phone'));
         }
 
         if (Str::length($phone) == 5) {
-            $arr   = str_split(substr($phone, 1), 2);
-            $phone = $phone[0] . '-' . implode('-', $arr);
+            $arr   = \str_split(\substr($phone, 1), 2);
+            $phone = $phone[0] . '-' . \implode('-', $arr);
 
             return $phone_code->put('phone', $phone);
         }
 
         if (Str::length($phone) == 6) {
             $divider = $this->isBeauty($phone) ? 3 : 2;
-            $phone   = implode('-', str_split($phone, $divider));
+            $phone   = \implode('-', \str_split($phone, $divider));
 
             return $phone_code->put('phone', $phone);
         }
 
         if (Str::length($phone) < 10) {
-            $phone = implode('-', str_split($phone, 3));
+            $phone = \implode('-', \str_split($phone, 3));
 
             return $phone_code->put('phone', $phone);
         }
@@ -313,7 +313,7 @@ class Phone
         $phone  = Str::substr($phone, Str::length($prefix));
 
         if ($this->isBeauty($phone)) {
-            $phone = implode('-', str_split($phone, 3));
+            $phone = \implode('-', \str_split($phone, 3));
 
             return $phone_code->put('phone', $phone);
         }

@@ -17,7 +17,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/config/beautiful_phone.php' => config_path('beautiful_phone.php'),
+            __DIR__ . '/config/beautiful_phone.php' => \config_path('beautiful_phone.php'),
         ]);
     }
 
