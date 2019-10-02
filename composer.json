@@ -15,7 +15,7 @@
         "illuminate/support": "^5.4|^6.0"
     },
     "require-dev": {
-        "orchestra/testbench": "~3.0"
+        "orchestra/testbench": "^4.0"
     },
     "suggest": {
         "symfony/thanks": "Give thanks (in the form of a GitHub) to your fellow PHP package maintainers"
