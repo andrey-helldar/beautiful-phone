@@ -8,18 +8,19 @@ if (! function_exists('phone')) {
      * {@inheritdoc}
      *
      * @param $phone
-     * @param int $phone_code
+     * @param int $city_code
      * @param bool $is_html
      * @param bool $is_link
+     * @param array $attributes
      *
      * @return string
      */
-    function phone($phone, $phone_code = 0, $is_html = true, $is_link = true)
+    function phone($phone, int $city_code = 0, bool $is_html = true, bool $is_link = true, array $attributes = [])
     {
         if (class_exists(ServiceProvider::class)) {
-            return \app('phone')->get($phone, $phone_code, $is_html, $is_link);
+            return \app('phone')->get($phone, $city_code, $is_html, $is_link, $attributes);
         }
 
-        return (new Phone())->get($phone, $phone_code, $is_html, $is_link);
+        return (new Phone())->get($phone, $city_code, $is_html, $is_link, $attributes);
     }
 }

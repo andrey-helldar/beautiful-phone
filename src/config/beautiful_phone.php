@@ -49,5 +49,5 @@ return [
     'template_prefix_text' => '+%s (%s) %s',
     'template_prefix_html' => '<span>+%s (%s)</span> %s',
 
-    'template_link' => "<a href='tel:%s'>%s</a>",
+    'template_link' => '<a href="tel:%s"%s>%s</a>',
 ];

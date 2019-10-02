@@ -32,11 +32,15 @@ Instead, you may of course manually update your require block and run `composer 
 ```
 
 
-#### Laravel Framework
-If you don't use auto-discovery, add the `ServiceProvider` to the providers array in `config/app.php`:
+#### For the Laravel Framework
+If you don't use auto-discovery, add the `ServiceProvider` to the `providers` array in `config/app.php`:
 
 ```php
-Helldar\BeautifulPhone\ServiceProvider::class
+'providers' => [
+    // ...
+    Helldar\BeautifulPhone\ServiceProvider::class,
+    // ...
+]
 ```
 
 You can also publish the config file to change implementations (ie. interface to specific class):
@@ -50,35 +54,42 @@ php artisan vendor:publish --provider="Helldar\BeautifulPhone\ServiceProvider"
 
 Now you can use the universal `phone()` helper or `app('phone)` inside the Laravel Framework (`phone()` too working).
 
+Or create a `Phone` instance:
+```php
+use Helldar\BeautifulPhone\Services\Phone;
+
+return (new Phone())->get(/*...attributes...*/);
+```
+
 
 ### Default parameters:
 
 ```php
-return phone('4567')
+return phone('4567');
 // returned: <a href='tel:4567'>4567</a>
 
-return phone('fooba')
+return phone('fooba');
 // returned: <a href='tel:+781236622'><span>+7 (812)</span> 3-66-22</a>
 
-return phone('foobar')
+return phone('foobar');
 // returned: <a href='tel:+7812366227'><span>+7 (812)</span> 36-62-27</a>
 
-return phone('123123')
+return phone('123123');
 // returned: <a href='tel:+7812123123'><span>+7 (812)</span> 123-123</a>
 
-return phone('31234567890')
+return phone('31234567890');
 // returned: <a href='tel:+31234567890'><span>+3 (123)</span> 456-789-0</a>
 
-return phone('+33216549883')
+return phone('+33216549883');
 // returned: <a href='tel:+33216549883'><span>+3 (321)</span> 654-98-83</a>
 
-return phone('+33216665557')
+return phone('+33216665557');
 // returned: <a href='tel:+33216665557'><span>+3 (321)</span> 666-555-7</a>
 
-return phone('+73216665557')
+return phone('+73216665557');
 // returned: <a href='tel:+73216665557'><span>+7 (321)</span> 666-555-7</a>
 
-return phone('+83216665557')
+return phone('+83216665557');
 // returned: <a href='tel:+73216665557'><span>+7 (321)</span> 666-555-7</a>
 ```
 
@@ -86,125 +97,151 @@ return phone('+83216665557')
 ### With manual applying city code:
 
 ```php
-return phone('4567', 1234)
+return phone('4567', 1234);
 // returned: <a href='tel:4567'>4567</a>
 
-return phone('fooba', 1234)
+return phone('fooba', 1234);
 // returned: <a href='tel:+7123436622'><span>+7 (1234)</span> 3-66-22</a>
 
-return phone('foobar', 1234)
+return phone('foobar', 1234);
 // returned: <a href='tel:+71234366227'><span>+7 (1234)</span> 36-62-27</a>
 
-return phone('123123', 1234)
+return phone('123123', 1234);
 // returned: <a href='tel:+71234123123'><span>+7 (1234)</span> 123-123</a>
 
-return phone('31234567890', 1234)
+return phone('31234567890', 1234);
 // returned: <a href='tel:+31234567890'><span>+3 (1234)</span> 567-890</a>
 
-return phone('+33216549883', 1234)
+return phone('+33216549883', 1234);
 // returned: <a href='tel:+33216549883'><span>+3 (321)</span> 654-98-83</a>
 
-return phone('+33216665557', 1234)
+return phone('+33216665557', 1234);
 // returned: <a href='tel:+33216665557'><span>+3 (321)</span> 666-555-7</a>
 
-return phone('+73216665557', 1234)
+return phone('+73216665557', 1234);
 // returned: <a href='tel:+73216665557'><span>+7 (321)</span> 666-555-7</a>
 
-return phone('+83216665557', 1234)
+return phone('+83216665557', 1234);
 // returned: <a href='tel:+73216665557'><span>+7 (321)</span> 666-555-7</a>
 ```
 
 ### With disabled html formatting into phone number:
 
 ```php
-return phone('4567', 0, false)
+return phone('4567', 0, false);
 // returned: <a href='tel:4567'>4567</a>
 
-return phone('fooba', 0, false)
+return phone('fooba', 0, false);
 // returned: <a href='tel:+781236622'>+7 (812) 3-66-22</a>
 
-return phone('foobar', 0, false)
+return phone('foobar', 0, false);
 // returned: <a href='tel:+7812366227'>+7 (812) 36-62-27</a>
 
-return phone('123123', 0, false)
+return phone('123123', 0, false);
 // returned: <a href='tel:+7812123123'>+7 (812) 123-123</a>
 
-return phone('31234567890', 0, false)
+return phone('31234567890', 0, false);
 // returned: <a href='tel:+31234567890'>+3 (123) 456-789-0</a>
 
-return phone('+33216549883', 0, false)
+return phone('+33216549883', 0, false);
 // returned: <a href='tel:+33216549883'>+3 (321) 654-98-83</a>
 
-return phone('+33216665557', 0, false)
+return phone('+33216665557', 0, false);
 // returned: <a href='tel:+33216665557'>+3 (321) 666-555-7</a>
 
-return phone('+73216665557', 0, false)
+return phone('+73216665557', 0, false);
 // returned: <a href='tel:+73216665557'>+7 (321) 666-555-7</a>
 
-return phone('+83216665557', 0, false)
+return phone('+83216665557', 0, false);
 // returned: <a href='tel:+73216665557'>+7 (321) 666-555-7</a>
 ```
 
 ### With enabled html formatting and disabled `is_link` parameter into phone number:
 
 ```php
-return phone('4567', 0, true, false)
+return phone('4567', 0, true, false);
 // returned: 4567
 
-return phone('fooba', 0, true, false)
+return phone('fooba', 0, true, false);
 // returned: <span>+7 (812)</span> 3-66-22
 
-return phone('foobar', 0, true, false)
+return phone('foobar', 0, true, false);
 // returned: <span>+7 (812)</span> 36-62-27
 
-return phone('123123', 0, true, false)
+return phone('123123', 0, true, false);
 // returned: <span>+7 (812)</span> 123-123
 
-return phone('31234567890', 0, true, false)
+return phone('31234567890', 0, true, false);
 // returned: <span>+3 (123)</span> 456-789-0
 
-return phone('+33216549883', 0, true, false)
+return phone('+33216549883', 0, true, false);
 // returned: <span>+3 (321)</span> 654-98-83
 
-return phone('+33216665557', 0, true, false)
+return phone('+33216665557', 0, true, false);
 // returned: <span>+3 (321)</span> 666-555-7
 
-return phone('+73216665557', 0, true, false)
+return phone('+73216665557', 0, true, false);
 // returned: <span>+7 (321)</span> 666-555-7
 
-return phone('+83216665557', 0, true, false)
+return phone('+83216665557', 0, true, false);
 // returned: <span>+7 (321)</span> 666-555-7
 ```
 
 ### With disabled html formatting and `is_link` parameter into phone number:
 
 ```php
-return phone('4567', 0, false, false)
+return phone('4567', 0, false, false);
 // returned: 4567
 
-return phone('fooba', 0, false, false)
+return phone('fooba', 0, false, false);
 // returned: +7 (812) 3-66-22
 
-return phone('foobar', 0, false, false)
+return phone('foobar', 0, false, false);
 // returned: +7 (812) 36-62-27
 
-return phone('123123', 0, false, false)
+return phone('123123', 0, false, false);
 // returned: +7 (812) 123-123
 
-return phone('31234567890', 0, false, false)
+return phone('31234567890', 0, false, false);
 // returned: +3 (123) 456-789-0
 
-return phone('+33216549883', 0, false, false)
+return phone('+33216549883', 0, false, false);
 // returned: +3 (321) 654-98-83
 
-return phone('+33216665557', 0, false, false)
+return phone('+33216665557', 0, false, false);
 // returned: +3 (321) 666-555-7
 
-return phone('+73216665557', 0, false, false)
+return phone('+73216665557', 0, false, false);
 // returned: +7 (321) 666-555-7
 
-return phone('+83216665557', 0, false, false)
+return phone('+83216665557', 0, false, false);
 // returned: +7 (321) 666-555-7
+```
+
+### With additional attributes:
+
+```php
+$attributes = ["id" => "foo", "class" => "bar baz", "data-value" => "foo"];
+
+// Default parameters:
+return phone('foobar', 0, true, true, $attributes);
+// returned: <a href="tel:+7812366227" id="foo" class="bar baz" data-value="foo"><span>+7 (812)</span> 36-62-27</a>
+
+// With manual applying city code:
+return phone('foobar', 1234, true, true, $attributes);
+// returned: <a href="tel:+71234366227" id="foo" class="bar baz" data-value="foo"><span>+7 (1234)</span> 36-62-27</a>
+
+// With disabled html formatting into phone number:
+return phone('foobar', 0, false, true, $attributes);
+// returned: <a href="tel:+7812366227" id="foo" class="bar baz" data-value="foo">+7 (812) 36-62-27</a>
+
+// With enabled html formatting and disabled `is_link` parameter into phone number:
+return phone('foobar', 0, true, false, $attributes);
+// returned: <span>+7 (812)</span> 36-62-27
+
+// With disabled html formatting and `is_link` parameter into phone number:
+return phone('foobar', 0, false, false, $attributes);
+// returned: +7 (812) 36-62-27
 ```
 
 
