@@ -3,7 +3,7 @@
 use Helldar\BeautifulPhone\Services\Phone;
 use Illuminate\Support\ServiceProvider;
 
-if (! function_exists('phone')) {
+if (!function_exists('phone')) {
     /**
      * {@inheritdoc}
      *
