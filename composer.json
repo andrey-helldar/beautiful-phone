@@ -11,11 +11,10 @@
         }
     ],
     "require": {
-        "php": ">=5.6.4",
-        "illuminate/support": "^5.4|^6.0"
+        "php": "^7.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^4.0"
+        "phpunit/phpunit": "^8.0"
     },
     "suggest": {
         "symfony/thanks": "Give thanks (in the form of a GitHub) to your fellow PHP package maintainers"

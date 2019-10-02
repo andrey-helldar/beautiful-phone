@@ -2,24 +2,12 @@
 
 namespace Helldar\BeautifulPhone\Services;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Str;
+use Helldar\BeautifulPhone\Services\Support\Arr;
+use Helldar\BeautifulPhone\Services\Support\Config;
+use Helldar\BeautifulPhone\Services\Support\Str;
 
 class Phone
 {
-    /**
-     * @var \Illuminate\Support\Collection
-     */
-    private $config;
-
-    public function __construct()
-    {
-        $config = Config::get('beautiful_phone', []);
-
-        $this->config = Collection::make($config);
-    }
-
     /**
      * @param string $phone
      * @param int $city_code
@@ -39,29 +27,30 @@ class Phone
         }
 
         $template = $is_html ? 'template_prefix_html' : 'template_prefix_text';
-        $template = $this->config->get($template, '+%s (%s) %s');
-        $result   = \sprintf($template, $formatted->get('region'), $formatted->get('city'), $formatted->get('phone'));
+        $template = $this->config($template, '+%s (%s) %s');
+        $result   = \sprintf($template, Arr::get($formatted, 'region'), Arr::get($formatted, 'city'), Arr::get($formatted, 'phone'));
 
         if ($is_link) {
-            $template   = $this->config->get('template_link', '<a href="%s">%s</a>');
-            $phone_link = $this->clear($phone_code->implode(''));
+            $template   = $this->config('template_link', '<a href="%s">%s</a>');
+            $phone_link = $this->clear(\implode('', $formatted));
             $phone_link = Str::start($phone_link, '+');
-            $result     = \sprintf($template, $phone_link, $result);
+
+            $result = \sprintf($template, $phone_link, $result);
         }
 
         return $result;
     }
 
-    private function getShortPhone(Collection $formatted, $is_html = true, $is_link = true)
+    private function getShortPhone(array $formatted, $is_html = true, $is_link = true)
     {
-        $phone = (string) $formatted->get('phone');
+        $phone = (string) Arr::get($formatted, 'phone');
 
         if (Str::length($phone) > 4) {
             return false;
         }
 
-        if (($is_html && $is_link) || (!$is_html && $is_link)) {
-            $template = $this->config->get('template_link', '%s');
+        if (($is_html && $is_link) || (! $is_html && $is_link)) {
+            $template = $this->config('template_link', '%s');
 
             return \sprintf($template, $phone, $phone);
         }
@@ -104,7 +93,7 @@ class Phone
      *
      * @return string
      */
-    private function clear($phone)
+    private function clear($phone): string
     {
         $phone = $this->convertWords($phone);
 
@@ -127,7 +116,7 @@ class Phone
             return $city;
         }
 
-        foreach ($this->config->get('codes', []) as $code) {
+        foreach ($this->config('codes', []) as $code) {
             $len_region = Str::length($region);
             $len_code   = Str::length((string) $code);
 
@@ -148,7 +137,7 @@ class Phone
      */
     private function region($phone)
     {
-        $codes = $this->config->get('countries', []);
+        $codes = $this->config('countries', []);
         $code  = Str::substr($phone, 0, 1);
 
         foreach ($codes as $item) {
@@ -167,13 +156,9 @@ class Phone
      */
     private function replaceRegion($value)
     {
-        $regions = $this->config->get('replaces_country', []);
+        $regions = $this->config('replaces_country', []);
 
-        if (\array_key_exists($value, $regions)) {
-            return (int) $regions[$value];
-        }
-
-        return (int) $value;
+        return (int) Arr::get($regions, $value, $value);
     }
 
     /**
@@ -207,25 +192,25 @@ class Phone
      * @param string $phone
      * @param null|int $code
      *
-     * @return Collection
+     * @return array
      */
-    private function phoneCode($phone, $code = null)
+    private function phoneCode($phone, $code = null): array
     {
         if (Str::length($phone) <= 4) {
-            return Collection::make();
+            return [];
         }
 
         if (Str::length($phone) <= 7) {
-            $region = $this->config->get('default_country', 7);
-            $city   = $code ?: $this->config->get('default_city', 7);
+            $region = $this->config('default_country', 7);
+            $city   = $code ?: $this->config('default_city', 7);
 
-            return Collection::make(\compact('region', 'city'));
+            return \compact('region', 'city');
         }
 
         $region = $this->region($phone);
         $city   = $this->code($phone, $region, $code);
 
-        return Collection::make(\compact('region', 'city'));
+        return \compact('region', 'city');
     }
 
     /**
@@ -237,16 +222,18 @@ class Phone
      */
     private function isBeauty($phone)
     {
-        $arr       = \str_split((string) $phone, 3);
+        $arr = \str_split((string) $phone, 3);
+
         $is_beauty = $arr[0] === $arr[1];
 
-        if (!$is_beauty) {
+        if (! $is_beauty) {
             $is_beauty = ($arr[0] % 10 == 0 || $arr[1] % 10 == 0);
         }
 
-        if (!$is_beauty) {
-            $sum0   = $this->sum($arr[0]);
-            $sum1   = $this->sum($arr[1]);
+        if (! $is_beauty) {
+            $sum0 = $this->sum($arr[0]);
+            $sum1 = $this->sum($arr[1]);
+
             $count0 = \sizeof(\array_unique(\str_split((string) $arr[0])));
             $count1 = \sizeof(\array_unique(\str_split((string) $arr[1])));
 
@@ -278,46 +265,62 @@ class Phone
      * Formatting a phone number.
      *
      * @param mixed $phone
-     * @param \Illuminate\Support\Collection $phone_code
+     * @param array $phone_code
      *
-     * @return \Illuminate\Support\Collection
+     * @return array
      */
-    private function format($phone, $phone_code)
+    private function format($phone, array $phone_code): array
     {
         if (Str::length($phone) <= 4) {
-            return Collection::make(\compact('phone'));
+            return \compact('phone');
         }
 
         if (Str::length($phone) == 5) {
-            $arr   = \str_split(\substr($phone, 1), 2);
+            $arr = \str_split(\substr($phone, 1), 2);
+
             $phone = $phone[0] . '-' . \implode('-', $arr);
 
-            return $phone_code->put('phone', $phone);
+            $phone_code['phone'] = $phone;
+
+            return $phone_code;
         }
 
         if (Str::length($phone) == 6) {
             $divider = $this->isBeauty($phone) ? 3 : 2;
             $phone   = \implode('-', \str_split($phone, $divider));
 
-            return $phone_code->put('phone', $phone);
+            $phone_code['phone'] = $phone;
+
+            return $phone_code;
         }
 
         if (Str::length($phone) < 10) {
             $phone = \implode('-', \str_split($phone, 3));
 
-            return $phone_code->put('phone', $phone);
+            $phone_code['phone'] = $phone;
+
+            return $phone_code;
         }
 
         // Mobile phones.
-        $prefix = $phone_code->get('region') . $phone_code->get('city');
+        $prefix = ($phone_code['region'] ?? null) . ($phone_code['city'] ?? null);
         $phone  = Str::substr($phone, Str::length($prefix));
 
         if ($this->isBeauty($phone)) {
             $phone = \implode('-', \str_split($phone, 3));
 
-            return $phone_code->put('phone', $phone);
+            $phone_code['phone'] = $phone;
+
+            return $phone_code;
         }
 
-        return $phone_code->put('phone', $this->split($phone));
+        $phone_code['phone'] = $this->split($phone);
+
+        return $phone_code;
+    }
+
+    private function config($key, $default = null)
+    {
+        return Config::get($key, $default);
     }
 }
