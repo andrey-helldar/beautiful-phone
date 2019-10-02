@@ -1,8 +1,8 @@
-# Beautiful Phone Formatter for Laravel 5.4+
+# Beautiful Phone Formatter
 
 Formatting a phone number into a beautiful view.
 
-![beautiful phone](https://user-images.githubusercontent.com/10347617/40197723-f1da55e6-5a1c-11e8-8b20-f8ecedd5718d.png)
+![beautiful phone](https://user-images.githubusercontent.com/10347617/66074886-f3b82c80-e562-11e9-80b1-ba731deba9f3.png)
 
 <p align="center">
     <a href="https://styleci.io/repos/45746985"><img src="https://styleci.io/repos/75637284/shield" alt="StyleCI" /></a>
@@ -26,15 +26,17 @@ Instead, you may of course manually update your require block and run `composer 
 ```json
 {
     "require": {
-        "andrey-helldar/beautiful-phone": "^1.2"
+        "andrey-helldar/beautiful-phone": "^1.4"
     }
 }
 ```
 
+
+#### Laravel Framework
 If you don't use auto-discovery, add the `ServiceProvider` to the providers array in `config/app.php`:
 
 ```php
-Helldar\BeautifulPhone\ServiceProvider::class,
+Helldar\BeautifulPhone\ServiceProvider::class
 ```
 
 You can also publish the config file to change implementations (ie. interface to specific class):
@@ -43,10 +45,11 @@ You can also publish the config file to change implementations (ie. interface to
 php artisan vendor:publish --provider="Helldar\BeautifulPhone\ServiceProvider"
 ```
 
-Now you can use a `phone()` or `app('phone)` helpers.
-
 
 ## Using
+
+Now you can use the universal `phone()` helper or `app('phone)` inside the Laravel Framework (`phone()` too working).
+
 
 ### Default parameters:
 
@@ -207,4 +210,4 @@ return phone('+83216665557', 0, false, false)
 
 ## Copyright and License
 
-`Beautiful Phone Formatter` was written by Andrey Helldar for the Laravel Framework 5.4 and later, and is released under the [MIT LICENSE](LICENSE).
+`Beautiful Phone Formatter` was written by Andrey Helldar, and is released under the [MIT LICENSE](LICENSE).
