@@ -27,12 +27,12 @@ class Phone
             return $result;
         }
 
-        $template = $is_html ? 'template_prefix_html' : 'template_prefix_text';
-        $template = $this->config($template, '+%s (%s) %s');
-        $result   = \sprintf($template, Arr::get($formatted, 'region'), Arr::get($formatted, 'city'), Arr::get($formatted, 'phone'));
+        $template = $this->getTemplate($is_html);
+
+        $result = \sprintf($template, Arr::get($formatted, 'region'), Arr::get($formatted, 'city'), Arr::get($formatted, 'phone'));
 
         if ($is_link) {
-            $template   = $this->config('template_link', '<a href="%s" %s>%s</a>');
+            $template   = $this->getTemplateLink();
             $phone_link = $this->clear(\implode('', $formatted));
             $phone_link = Str::start($phone_link, '+');
             $attr       = $this->compileAttributes($attributes);
@@ -51,8 +51,8 @@ class Phone
             return false;
         }
 
-        if (($is_html && $is_link) || (!$is_html && $is_link)) {
-            $template = $this->config('template_link', '%s%s');
+        if (($is_html && $is_link) || (! $is_html && $is_link)) {
+            $template = $this->getTemplateLink('%s%s');
             $attr     = $this->compileAttributes($attributes);
 
             return \sprintf($template, $phone, $attr, $phone);
@@ -229,11 +229,11 @@ class Phone
 
         $is_beauty = $arr[0] === $arr[1];
 
-        if (!$is_beauty) {
+        if (! $is_beauty) {
             $is_beauty = ($arr[0] % 10 == 0 || $arr[1] % 10 == 0);
         }
 
-        if (!$is_beauty) {
+        if (! $is_beauty) {
             $sum0 = $this->sum($arr[0]);
             $sum1 = $this->sum($arr[1]);
 
@@ -324,12 +324,12 @@ class Phone
 
     private function config(string $key, $default = null)
     {
-        return Config::get($key, $default);
+        return Config::get($key) ?: $default;
     }
 
     private function compileAttributes(array $attributes = []): string
     {
-        if (!$attributes) {
+        if (! $attributes) {
             return '';
         }
 
@@ -338,5 +338,28 @@ class Phone
         }, \array_keys($attributes), \array_values($attributes));
 
         return ' ' . \implode(' ', $attributes);
+    }
+
+    private function getTemplate(bool $is_html = true): string
+    {
+        $key = $is_html ? 'template_prefix_html' : 'template_prefix_text';
+
+        $template = $this->config($key, '+%s (%s) %s');
+
+        return $this->fixTemplate($template, '+%s (%s) %s');
+    }
+
+    private function getTemplateLink(string $default = '<a href="%s"%s>%s</a>')
+    {
+        $template = $this->config('template_link', $default);
+
+        return $this->fixTemplate($template, $default);
+    }
+
+    private function fixTemplate(string $template, string $default): string
+    {
+        return \substr_count($template, '%s') == 3
+            ? $template
+            : $default;
     }
 }
