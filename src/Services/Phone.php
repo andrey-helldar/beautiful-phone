@@ -51,7 +51,7 @@ class Phone
             return false;
         }
 
-        if (($is_html && $is_link) || (! $is_html && $is_link)) {
+        if (($is_html && $is_link) || (!$is_html && $is_link)) {
             $template = $this->getTemplateLink('%s%s');
             $attr     = $this->compileAttributes($attributes);
 
@@ -229,11 +229,11 @@ class Phone
 
         $is_beauty = $arr[0] === $arr[1];
 
-        if (! $is_beauty) {
+        if (!$is_beauty) {
             $is_beauty = ($arr[0] % 10 == 0 || $arr[1] % 10 == 0);
         }
 
-        if (! $is_beauty) {
+        if (!$is_beauty) {
             $sum0 = $this->sum($arr[0]);
             $sum1 = $this->sum($arr[1]);
 
@@ -329,7 +329,7 @@ class Phone
 
     private function compileAttributes(array $attributes = []): string
     {
-        if (! $attributes) {
+        if (!$attributes) {
             return '';
         }
 
