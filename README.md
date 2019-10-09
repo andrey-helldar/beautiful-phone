@@ -58,7 +58,7 @@ Or create a `Phone` instance:
 ```php
 use Helldar\BeautifulPhone\Services\Phone;
 
-return (new Phone())->get(/*...attributes...*/);
+return (new Phone())->get(/*...params...*/);
 ```
 
 
