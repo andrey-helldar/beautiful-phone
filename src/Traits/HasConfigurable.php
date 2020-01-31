@@ -2,12 +2,12 @@
 
 namespace Helldar\BeautifulPhone\Traits;
 
-use Helldar\BeautifulPhone\Services\Support\Config;
+use Helldar\BeautifulPhone\Services\Config;
 use Illuminate\Container\Container;
 
 trait HasConfigurable
 {
-    /** @var \Helldar\BeautifulPhone\Services\Support\Config */
+    /** @var \Helldar\BeautifulPhone\Services\Config */
     protected static $config;
 
     /**
