@@ -13,14 +13,11 @@ if (! function_exists('phone')) {
      * @param array $attributes
      *
      * @return string
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     function phone($phone, int $city_code = 0, bool $is_html = true, bool $is_link = true, array $attributes = [])
     {
-        if (class_exists(Container::class)) {
-            return Container::getInstance()->make(Phone::class)
-                ->get($phone, $city_code, $is_html, $is_link, $attributes);
-        }
-
-        return (new Phone())->get($phone, $city_code, $is_html, $is_link, $attributes);
+        return Container::getInstance()->make(Phone::class)
+            ->get($phone, $city_code, $is_html, $is_link, $attributes);
     }
 }
