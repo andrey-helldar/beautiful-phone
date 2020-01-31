@@ -3,8 +3,9 @@
 namespace Helldar\BeautifulPhone;
 
 use Helldar\BeautifulPhone\Services\Phone;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
-class ServiceProvider extends \Illuminate\Support\ServiceProvider
+class ServiceProvider extends IlluminateServiceProvider
 {
     /**
      * {@inheritdoc}
