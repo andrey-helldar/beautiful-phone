@@ -6,6 +6,22 @@ use Helldar\BeautifulPhone\Services\Support\Arr;
 use Helldar\BeautifulPhone\Services\Support\Config;
 use Helldar\BeautifulPhone\Services\Support\Str;
 
+use function array_keys;
+use function array_map;
+use function array_merge;
+use function array_sum;
+use function array_unique;
+use function array_values;
+use function compact;
+use function implode;
+use function preg_replace;
+use function sizeof;
+use function sprintf;
+use function str_ireplace;
+use function str_split;
+use function substr;
+use function substr_count;
+
 class Phone
 {
     /**
@@ -29,15 +45,15 @@ class Phone
 
         $template = $this->getTemplate($is_html);
 
-        $result = \sprintf($template, Arr::get($formatted, 'region'), Arr::get($formatted, 'city'), Arr::get($formatted, 'phone'));
+        $result = sprintf($template, Arr::get($formatted, 'region'), Arr::get($formatted, 'city'), Arr::get($formatted, 'phone'));
 
         if ($is_link) {
             $template   = $this->getTemplateLink();
-            $phone_link = $this->clear(\implode('', $formatted));
+            $phone_link = $this->clear(implode('', $formatted));
             $phone_link = Str::start($phone_link, '+');
             $attr       = $this->compileAttributes($attributes);
 
-            $result = \sprintf($template, $phone_link, $attr, $result);
+            $result = sprintf($template, $phone_link, $attr, $result);
         }
 
         return $result;
@@ -51,11 +67,11 @@ class Phone
             return false;
         }
 
-        if (($is_html && $is_link) || (!$is_html && $is_link)) {
+        if (($is_html && $is_link) || (! $is_html && $is_link)) {
             $template = $this->getTemplateLink('%s%s');
             $attr     = $this->compileAttributes($attributes);
 
-            return \sprintf($template, $phone, $attr, $phone);
+            return sprintf($template, $phone, $attr, $phone);
         }
 
         return $phone;
@@ -83,7 +99,7 @@ class Phone
         ];
 
         foreach ($replace as $digit => $letters) {
-            $phone = \str_ireplace($letters, $digit, $phone);
+            $phone = str_ireplace($letters, $digit, $phone);
         }
 
         return (string) $phone;
@@ -100,7 +116,7 @@ class Phone
     {
         $phone = $this->convertWords((string) $phone);
 
-        return (string) \preg_replace("/\D/", '', $phone);
+        return (string) preg_replace("/\D/", '', $phone);
     }
 
     /**
@@ -181,12 +197,12 @@ class Phone
 
         if ($length == 7) {
             $tmp = [Str::substr($phone, 0, 3)];
-            $tmp = \array_merge($tmp, \str_split(Str::substr($phone, 3), 2));
+            $tmp = array_merge($tmp, str_split(Str::substr($phone, 3), 2));
 
-            return \implode('-', $tmp);
+            return implode('-', $tmp);
         }
 
-        return \implode('-', \str_split($phone, 3));
+        return implode('-', str_split($phone, 3));
     }
 
     /**
@@ -207,13 +223,13 @@ class Phone
             $region = $this->config('default_country', 7);
             $city   = $code ?: $this->config('default_city', 7);
 
-            return \compact('region', 'city');
+            return compact('region', 'city');
         }
 
         $region = $this->region($phone);
         $city   = $this->code($phone, $region, $code);
 
-        return \compact('region', 'city');
+        return compact('region', 'city');
     }
 
     /**
@@ -225,20 +241,20 @@ class Phone
      */
     private function isBeauty(string $phone)
     {
-        $arr = \str_split($phone, 3);
+        $arr = str_split($phone, 3);
 
         $is_beauty = $arr[0] === $arr[1];
 
-        if (!$is_beauty) {
+        if (! $is_beauty) {
             $is_beauty = ($arr[0] % 10 == 0 || $arr[1] % 10 == 0);
         }
 
-        if (!$is_beauty) {
+        if (! $is_beauty) {
             $sum0 = $this->sum($arr[0]);
             $sum1 = $this->sum($arr[1]);
 
-            $count0 = \sizeof(\array_unique(\str_split((string) $arr[0])));
-            $count1 = \sizeof(\array_unique(\str_split((string) $arr[1])));
+            $count0 = sizeof(array_unique(str_split((string) $arr[0])));
+            $count1 = sizeof(array_unique(str_split((string) $arr[1])));
 
             $is_beauty = ($sum0 == $sum1) || ($count0 === 1 && $count1 === 1);
         }
@@ -259,7 +275,7 @@ class Phone
             return (int) $digit;
         }
 
-        $sum = \array_sum(\str_split((string) $digit, 1));
+        $sum = array_sum(str_split((string) $digit, 1));
 
         return (int) ($sum >= 10 ? $this->sum($sum) : $sum);
     }
@@ -275,13 +291,13 @@ class Phone
     private function format(string $phone, array $phone_code): array
     {
         if (Str::length($phone) <= 4) {
-            return \compact('phone');
+            return compact('phone');
         }
 
         if (Str::length($phone) == 5) {
-            $arr = \str_split(\substr($phone, 1), 2);
+            $arr = str_split(substr($phone, 1), 2);
 
-            $phone = $phone[0] . '-' . \implode('-', $arr);
+            $phone = $phone[0] . '-' . implode('-', $arr);
 
             $phone_code['phone'] = $phone;
 
@@ -290,7 +306,7 @@ class Phone
 
         if (Str::length($phone) == 6) {
             $divider = $this->isBeauty($phone) ? 3 : 2;
-            $phone   = \implode('-', \str_split($phone, $divider));
+            $phone   = implode('-', str_split($phone, $divider));
 
             $phone_code['phone'] = $phone;
 
@@ -298,7 +314,7 @@ class Phone
         }
 
         if (Str::length($phone) < 10) {
-            $phone = \implode('-', \str_split($phone, 3));
+            $phone = implode('-', str_split($phone, 3));
 
             $phone_code['phone'] = $phone;
 
@@ -310,7 +326,7 @@ class Phone
         $phone  = Str::substr($phone, Str::length($prefix));
 
         if ($this->isBeauty($phone)) {
-            $phone = \implode('-', \str_split($phone, 3));
+            $phone = implode('-', str_split($phone, 3));
 
             $phone_code['phone'] = $phone;
 
@@ -329,15 +345,15 @@ class Phone
 
     private function compileAttributes(array $attributes = []): string
     {
-        if (!$attributes) {
+        if (! $attributes) {
             return '';
         }
 
-        $attributes = \array_map(function ($key, $value) {
-            return \sprintf('%s="%s"', $key, $value);
-        }, \array_keys($attributes), \array_values($attributes));
+        $attributes = array_map(function ($key, $value) {
+            return sprintf('%s="%s"', $key, $value);
+        }, array_keys($attributes), array_values($attributes));
 
-        return ' ' . \implode(' ', $attributes);
+        return ' ' . implode(' ', $attributes);
     }
 
     private function getTemplate(bool $is_html = true): string
@@ -358,7 +374,7 @@ class Phone
 
     private function fixTemplate(string $template, string $default): string
     {
-        return \substr_count($template, '%s') == 3
+        return substr_count($template, '%s') == 3
             ? $template
             : $default;
     }

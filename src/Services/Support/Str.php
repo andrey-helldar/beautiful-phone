@@ -2,6 +2,14 @@
 
 namespace Helldar\BeautifulPhone\Services\Support;
 
+use function mb_strlen;
+use function mb_strtolower;
+use function mb_substr;
+use function preg_quote;
+use function preg_replace;
+use function strlen;
+use function substr;
+
 class Str
 {
     /**
@@ -14,9 +22,9 @@ class Str
      */
     public static function start($value, $prefix)
     {
-        $quoted = \preg_quote($prefix, '/');
+        $quoted = preg_quote($prefix, '/');
 
-        return $prefix . \preg_replace('/^(?:' . $quoted . ')+/u', '', $value);
+        return $prefix . preg_replace('/^(?:' . $quoted . ')+/u', '', $value);
     }
 
     /**
@@ -30,10 +38,10 @@ class Str
     public static function length($value, $encoding = null)
     {
         if ($encoding) {
-            return \mb_strlen($value, $encoding);
+            return mb_strlen($value, $encoding);
         }
 
-        return \mb_strlen($value);
+        return mb_strlen($value);
     }
 
     /**
@@ -45,7 +53,7 @@ class Str
      */
     public static function lower($value)
     {
-        return \mb_strtolower($value, 'UTF-8');
+        return mb_strtolower($value, 'UTF-8');
     }
 
     /**
@@ -59,7 +67,7 @@ class Str
     public static function startsWith($haystack, $needles)
     {
         foreach ((array) $needles as $needle) {
-            if ($needle !== '' && \substr($haystack, 0, \strlen($needle)) === (string) $needle) {
+            if ($needle !== '' && substr($haystack, 0, strlen($needle)) === (string) $needle) {
                 return true;
             }
         }
@@ -78,6 +86,6 @@ class Str
      */
     public static function substr($string, $start, $length = null)
     {
-        return \mb_substr($string, $start, $length, 'UTF-8');
+        return mb_substr($string, $start, $length, 'UTF-8');
     }
 }
