@@ -4,8 +4,77 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4cff4cc73ded3e87ddfd7de74c08fe7",
+    "content-hash": "f94ae14bf86802bd5eb163af1b9f8e16",
     "packages": [
+        {
+            "name": "andrey-helldar/support",
+            "version": "v1.18.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/andrey-helldar/support.git",
+                "reference": "dbb88eccf55c41f6aae6888340d801cd8fb51333"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/andrey-helldar/support/zipball/dbb88eccf55c41f6aae6888340d801cd8fb51333",
+                "reference": "dbb88eccf55c41f6aae6888340d801cd8fb51333",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "ext-dom": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": "^7.1.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0"
+            },
+            "suggest": {
+                "illuminate/database": "For using methods from the Dumper class and Eloquent helpers in Laravel framework",
+                "symfony/thanks": "Give thanks (in the form of a GitHub) to your fellow PHP package maintainers",
+                "webpatser/laravel-uuid": "For using Laravel Eloquent abstract classes."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Helldar\\Support\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Helldar\\Support\\": "src/"
+                },
+                "files": [
+                    "src/helpers/digit.php",
+                    "src/helpers/dumper.php",
+                    "src/helpers/http.php",
+                    "src/helpers/strings.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrey Helldar",
+                    "email": "helldar@ai-rus.com"
+                }
+            ],
+            "description": "Support package is a collection of helpers and tools for projects.",
+            "keywords": [
+                "framework",
+                "laravel",
+                "support",
+                "symfony",
+                "yii",
+                "yii2"
+            ],
+            "time": "2020-01-31T22:53:12+00:00"
+        },
         {
             "name": "illuminate/container",
             "version": "v6.13.1",

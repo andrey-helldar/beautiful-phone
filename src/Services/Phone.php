@@ -2,8 +2,8 @@
 
 namespace Helldar\BeautifulPhone\Services;
 
-use Helldar\BeautifulPhone\Services\Support\Arr;
-use Helldar\BeautifulPhone\Services\Support\Str;
+use Helldar\Support\Facades\Arr;
+use Helldar\Support\Facades\Str;
 use Helldar\BeautifulPhone\Traits\HasConfigurable;
 
 use function array_keys;
@@ -34,6 +34,7 @@ class Phone
      * @param array $attributes
      *
      * @return bool|string
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function get($phone, int $city_code = 0, bool $is_html = true, bool $is_link = true, array $attributes = []): string
     {
@@ -66,7 +67,7 @@ class Phone
         $phone = (string) Arr::get($formatted, 'phone');
 
         if (Str::length($phone) > 4) {
-            return false;
+            return '';
         }
 
         if (($is_html && $is_link) || (! $is_html && $is_link)) {
@@ -130,6 +131,7 @@ class Phone
      * @param $city
      *
      * @return string
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     private function code($phone, $region, $city = null): string
     {
@@ -155,6 +157,7 @@ class Phone
      * @param $phone
      *
      * @return bool|int|string
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     private function region($phone)
     {
@@ -174,6 +177,7 @@ class Phone
      * @param string|int $value
      *
      * @return int
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     private function replaceRegion($value)
     {
@@ -214,6 +218,7 @@ class Phone
      * @param null|int $code
      *
      * @return array
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     private function phoneCode(string $phone, $code = null): array
     {
