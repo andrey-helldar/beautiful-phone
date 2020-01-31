@@ -1,3 +1,6 @@
 .idea/
 vendor/
+
 *.cache
+*.composerLog
+*.clover
