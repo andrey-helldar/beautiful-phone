@@ -3,8 +3,8 @@
 namespace Helldar\BeautifulPhone\Services;
 
 use Helldar\BeautifulPhone\Services\Support\Arr;
-use Helldar\BeautifulPhone\Services\Support\Config;
 use Helldar\BeautifulPhone\Services\Support\Str;
+use Helldar\BeautifulPhone\Traits\HasConfigurable;
 
 use function array_keys;
 use function array_map;
@@ -24,6 +24,8 @@ use function substr_count;
 
 class Phone
 {
+    use HasConfigurable;
+
     /**
      * @param $phone
      * @param int $city_code
@@ -336,11 +338,6 @@ class Phone
         $phone_code['phone'] = $this->split($phone);
 
         return $phone_code;
-    }
-
-    private function config(string $key, $default = null)
-    {
-        return Config::get($key) ?: $default;
     }
 
     private function compileAttributes(array $attributes = []): string

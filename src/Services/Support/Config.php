@@ -4,25 +4,34 @@ namespace Helldar\BeautifulPhone\Services\Support;
 
 use Illuminate\Support\Facades\Config as IlluminateConfig;
 
+use function class_exists;
+
 class Config
 {
-    private static $config;
+    protected $config;
 
-    public static function get($key, $default = null)
+    public function __construct()
     {
-        if (class_exists(IlluminateConfig::class)) {
-            return IlluminateConfig::get("beautiful_phone.{$key}", $default);
-        }
-
-        return static::load($key, $default);
+        $this->config = $this->illuminateExists() ? $this->illuminate() : $this->local();
     }
 
-    private static function load($key, $default)
+    public function get($key, $default = null)
     {
-        if (null === static::$config) {
-            static::$config = require __DIR__ . '/../../config/beautiful_phone.php';
-        }
+        return $this->config[$key] ?? $default;
+    }
 
-        return static::$config[$key] ?? $default;
+    protected function illuminate()
+    {
+        return IlluminateConfig::get("beautiful_phone");
+    }
+
+    protected function local()
+    {
+        return require __DIR__ . '/../../config/beautiful_phone.php';
+    }
+
+    protected function illuminateExists(): bool
+    {
+        return class_exists(IlluminateConfig::class);
     }
 }
