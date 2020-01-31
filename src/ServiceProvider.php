@@ -4,8 +4,6 @@ namespace Helldar\BeautifulPhone;
 
 use Helldar\BeautifulPhone\Services\Phone;
 
-use function config_path;
-
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
@@ -19,7 +17,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/config/beautiful_phone.php' => config_path('beautiful_phone.php'),
+            __DIR__ . '/config/beautiful_phone.php' => $this->app->configPath('beautiful_phone.php'),
         ]);
     }
 
