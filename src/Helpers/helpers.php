@@ -1,12 +1,11 @@
 <?php
 
 use Helldar\BeautifulPhone\Services\Phone;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Container\Container;
 
-if (!function_exists('phone')) {
+if (! function_exists('phone')) {
     /**
      * {@inheritdoc}
-     *
      * @param $phone
      * @param int $city_code
      * @param bool $is_html
@@ -17,8 +16,9 @@ if (!function_exists('phone')) {
      */
     function phone($phone, int $city_code = 0, bool $is_html = true, bool $is_link = true, array $attributes = [])
     {
-        if (class_exists(ServiceProvider::class)) {
-            return \app('phone')->get($phone, $city_code, $is_html, $is_link, $attributes);
+        if (class_exists(Container::class)) {
+            return Container::getInstance()->make(Phone::class)
+                ->get($phone, $city_code, $is_html, $is_link, $attributes);
         }
 
         return (new Phone())->get($phone, $city_code, $is_html, $is_link, $attributes);
