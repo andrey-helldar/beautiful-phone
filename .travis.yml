@@ -59,14 +59,19 @@ cache:
 
 before_install:
     - travis_retry composer self-update
+    - travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest
+    - if [[ $SETUP = 'stable-illuminate-support' ]]; then travis_retry composer require illuminate/support:"^5.6|^6.0|^7.0"; fi
+    - if [[ $SETUP = 'lowest-illuminate-support' ]]; then travis_retry composer require illuminate/support:"^5.6|^6.0|^7.0"; fi
+    - if [[ $SETUP = 'stable-illuminate-container' ]]; then travis_retry composer require illuminate/container:"^5.6|^6.0|^7.0"; fi
+    - if [[ $SETUP = 'lowest-illuminate-container' ]]; then travis_retry composer require illuminate/container:"^5.6|^6.0|^7.0"; fi
 
 install:
     - if [[ $SETUP = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
     - if [[ $SETUP = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest; fi
-    - if [[ $SETUP = 'stable-illuminate-support' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; travis_retry composer require illuminate/support; fi
-    - if [[ $SETUP = 'lowest-illuminate-support' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest; travis_retry composer require illuminate/support; fi
-    - if [[ $SETUP = 'stable-illuminate-container' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; travis_retry composer require illuminate/container; fi
-    - if [[ $SETUP = 'lowest-illuminate-container' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest; travis_retry composer require illuminate/container; fi
+    - if [[ $SETUP = 'stable-illuminate-support' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
+    - if [[ $SETUP = 'lowest-illuminate-support' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest; fi
+    - if [[ $SETUP = 'stable-illuminate-container' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
+    - if [[ $SETUP = 'lowest-illuminate-container' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest; fi
 
 script:
     - mkdir -p build/logs
