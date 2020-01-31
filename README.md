@@ -56,7 +56,7 @@ php artisan vendor:publish --provider="Helldar\BeautifulPhone\ServiceProvider"
 
 ## Using
 
-Now you can use the universal `phone()` helper or `app('phone)` inside the Laravel Framework (`phone()` too working).
+Now you can use the universal `phone()` helper inside the Laravel Framework (`phone()` too working).
 
 Or create a `Phone` instance:
 ```php
@@ -64,6 +64,8 @@ use Helldar\BeautifulPhone\Services\Phone;
 
 return (new Phone())->get(/*...params...*/);
 ```
+
+> Note: the `app('phone)` helper will be removed from the package in version 2.0.
 
 
 ### Default parameters:

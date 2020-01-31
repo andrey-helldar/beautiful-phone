@@ -34,6 +34,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * {@inheritdoc}
+     * @deprecated The `app('phone)` helper will be removed from the package in version 2.0.
      */
     public function provides()
     {
