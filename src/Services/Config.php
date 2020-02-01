@@ -2,9 +2,9 @@
 
 namespace Helldar\BeautifulPhone\Services;
 
-use Illuminate\Support\Facades\Config as IlluminateConfig;
-
 use function class_exists;
+
+use Illuminate\Support\Facades\Config as IlluminateConfig;
 
 class Config
 {
@@ -35,7 +35,7 @@ class Config
 
     protected function illuminate()
     {
-        return IlluminateConfig::get("beautiful_phone");
+        return IlluminateConfig::get('beautiful_phone');
     }
 
     protected function illuminateExists(): bool
