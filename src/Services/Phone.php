@@ -2,17 +2,17 @@
 
 namespace Helldar\BeautifulPhone\Services;
 
-use Helldar\Support\Facades\Arr;
-use Helldar\Support\Facades\Str;
-use Helldar\BeautifulPhone\Traits\HasConfigurable;
-
 use function array_keys;
 use function array_map;
 use function array_merge;
+
 use function array_sum;
 use function array_unique;
 use function array_values;
 use function compact;
+use Helldar\BeautifulPhone\Traits\HasConfigurable;
+use Helldar\Support\Facades\Arr;
+use Helldar\Support\Facades\Str;
 use function implode;
 use function preg_replace;
 use function sizeof;
@@ -33,8 +33,9 @@ class Phone
      * @param bool $is_link
      * @param array $attributes
      *
-     * @return bool|string
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
+     * @return bool|string
      */
     public function get($phone, int $city_code = 0, bool $is_html = true, bool $is_link = true, array $attributes = []): string
     {
@@ -130,8 +131,9 @@ class Phone
      * @param $region
      * @param $city
      *
-     * @return string
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
+     * @return string
      */
     private function code($phone, $region, $city = null): string
     {
@@ -156,8 +158,9 @@ class Phone
      *
      * @param $phone
      *
-     * @return bool|int|string
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
+     * @return bool|int|string
      */
     private function region($phone)
     {
@@ -174,10 +177,11 @@ class Phone
     }
 
     /**
-     * @param string|int $value
+     * @param int|string $value
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      *
      * @return int
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     private function replaceRegion($value)
     {
@@ -215,10 +219,11 @@ class Phone
      * Attaching the phone code of the city.
      *
      * @param string $phone
-     * @param null|int $code
+     * @param int|null $code
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      *
      * @return array
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     private function phoneCode(string $phone, $code = null): array
     {

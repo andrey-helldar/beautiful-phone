@@ -14,8 +14,9 @@ trait HasConfigurable
      * @param mixed $key
      * @param mixed $default
      *
-     * @return mixed
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
+     * @return mixed
      */
     protected function config($key, $default = null)
     {
