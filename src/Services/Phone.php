@@ -2,17 +2,17 @@
 
 namespace Helldar\BeautifulPhone\Services;
 
-use Helldar\BeautifulPhone\Traits\HasConfigurable;
-use Helldar\Support\Facades\Arr;
-use Helldar\Support\Facades\Str;
-
 use function array_keys;
 use function array_map;
 use function array_merge;
+
 use function array_sum;
 use function array_unique;
 use function array_values;
 use function compact;
+use Helldar\BeautifulPhone\Traits\HasConfigurable;
+use Helldar\Support\Facades\Arr;
+use Helldar\Support\Facades\Str;
 use function implode;
 use function preg_replace;
 use function sprintf;
@@ -33,6 +33,7 @@ class Phone
      * @param array $attributes
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
      * @return bool|string
      */
     public function get($phone, int $city_code = 0, bool $is_html = true, bool $is_link = true, array $attributes = []): string
@@ -143,6 +144,7 @@ class Phone
      * @param $city
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
      * @return string
      */
     protected function code($phone, $region, $city = null): string
@@ -169,6 +171,7 @@ class Phone
      * @param $phone
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
      * @return bool|int|string
      */
     protected function region($phone)
@@ -189,6 +192,7 @@ class Phone
      * @param int|string $value
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
      * @return int
      */
     protected function replaceRegion($value)
