@@ -12,6 +12,7 @@ if (! function_exists('phone')) {
      * @param array $attributes
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
      * @return string
      */
     function phone($phone, int $city_code = 0, bool $is_html = true, bool $is_link = true, array $attributes = [])
