@@ -15,7 +15,6 @@ use Helldar\Support\Facades\Arr;
 use Helldar\Support\Facades\Str;
 use function implode;
 use function preg_replace;
-use function sizeof;
 use function sprintf;
 use function str_ireplace;
 use function str_split;
@@ -28,10 +27,6 @@ class Phone
 
     /**
      * @param $phone
-     * @param int $city_code
-     * @param bool $is_html
-     * @param bool $is_link
-     * @param array $attributes
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      *
@@ -83,10 +78,6 @@ class Phone
 
     /**
      * Conversion of letter numbers into digital numbers.
-     *
-     * @param string $phone
-     *
-     * @return string
      */
     private function convertWords(string $phone = ''): string
     {
@@ -113,8 +104,6 @@ class Phone
      * Delete all characters except digits from the number.
      *
      * @param string $phone
-     *
-     * @return string
      */
     private function clear($phone): string
     {
@@ -132,8 +121,6 @@ class Phone
      * @param $city
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     *
-     * @return string
      */
     private function code($phone, $region, $city = null): string
     {
@@ -194,8 +181,6 @@ class Phone
      * Splitting a phone number into groups.
      *
      * @param $phone
-     *
-     * @return string
      */
     private function split(string $phone): string
     {
@@ -218,12 +203,9 @@ class Phone
     /**
      * Attaching the phone code of the city.
      *
-     * @param string $phone
      * @param int|null $code
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     *
-     * @return array
      */
     private function phoneCode(string $phone, $code = null): array
     {
@@ -247,7 +229,6 @@ class Phone
     /**
      * Checking the "beauty" of the phone number.
      *
-     * @param string $phone
      *
      * @return bool
      */
@@ -265,8 +246,8 @@ class Phone
             $sum0 = $this->sum($arr[0]);
             $sum1 = $this->sum($arr[1]);
 
-            $count0 = sizeof(array_unique(str_split((string) $arr[0])));
-            $count1 = sizeof(array_unique(str_split((string) $arr[1])));
+            $count0 = count(array_unique(str_split((string) $arr[0])));
+            $count1 = count(array_unique(str_split((string) $arr[1])));
 
             $is_beauty = ($sum0 == $sum1) || ($count0 === 1 && $count1 === 1);
         }
@@ -276,10 +257,6 @@ class Phone
 
     /**
      * Calculation of the sum of the digits of a string.
-     *
-     * @param string $digit
-     *
-     * @return int
      */
     private function sum(string $digit = ''): int
     {
@@ -294,11 +271,6 @@ class Phone
 
     /**
      * Formatting a phone number.
-     *
-     * @param string $phone
-     * @param array $phone_code
-     *
-     * @return array
      */
     private function format(string $phone, array $phone_code): array
     {

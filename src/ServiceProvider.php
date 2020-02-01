@@ -29,7 +29,7 @@ class ServiceProvider extends IlluminateServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/config/beautiful_phone.php', 'beautiful_phone');
 
-        $this->app->singleton('phone', Phone::class);
+        $this->app->singleton('phone', 'Helldar\BeautifulPhone\Services\Phone');
     }
 
     /**

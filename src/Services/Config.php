@@ -40,6 +40,6 @@ class Config
 
     protected function illuminateExists(): bool
     {
-        return class_exists(IlluminateConfig::class) && IlluminateConfig::getFacadeApplication();
+        return class_exists('Illuminate\Support\Facades\Config') && IlluminateConfig::getFacadeApplication();
     }
 }
