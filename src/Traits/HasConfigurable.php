@@ -11,12 +11,15 @@ trait HasConfigurable
     protected static $config;
 
     /**
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @param $key
+     * @param null $default
+     *
+     * @return mixed
      */
     protected function config($key, $default = null)
     {
         if (static::$config === null) {
-            static::$config = Container::getInstance()->make('Helldar\BeautifulPhone\Services\Config');
+            static::$config = Container::getInstance()->make(Config::class);
         }
 
         return static::$config->get($key, $default);

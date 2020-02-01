@@ -2,17 +2,17 @@
 
 namespace Helldar\BeautifulPhone\Services;
 
+use Helldar\BeautifulPhone\Traits\HasConfigurable;
+use Helldar\Support\Facades\Arr;
+use Helldar\Support\Facades\Str;
+
 use function array_keys;
 use function array_map;
 use function array_merge;
-
 use function array_sum;
 use function array_unique;
 use function array_values;
 use function compact;
-use Helldar\BeautifulPhone\Traits\HasConfigurable;
-use Helldar\Support\Facades\Arr;
-use Helldar\Support\Facades\Str;
 use function implode;
 use function preg_replace;
 use function sprintf;
@@ -27,9 +27,12 @@ class Phone
 
     /**
      * @param $phone
+     * @param int $city_code
+     * @param bool $is_html
+     * @param bool $is_link
+     * @param array $attributes
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     *
      * @return bool|string
      */
     public function get($phone, int $city_code = 0, bool $is_html = true, bool $is_link = true, array $attributes = []): string
@@ -42,23 +45,36 @@ class Phone
             return $result;
         }
 
-        $template = $this->getTemplate($is_html);
-
-        $result = sprintf($template, Arr::get($formatted, 'region'), Arr::get($formatted, 'city'), Arr::get($formatted, 'phone'));
+        $result = $this->formatPhone($formatted, $is_html);
 
         if ($is_link) {
-            $template   = $this->getTemplateLink();
-            $phone_link = $this->clear(implode('', $formatted));
-            $phone_link = Str::start($phone_link, '+');
-            $attr       = $this->compileAttributes($attributes);
-
-            $result = sprintf($template, $phone_link, $attr, $result);
+            return $this->convertToLink($result, $formatted, $attributes);
         }
 
         return $result;
     }
 
-    private function getShortPhone(array $formatted, bool $is_html = true, bool $is_link = true, array $attributes = []): string
+    protected function convertToLink(string $result, array $formatted, array $attributes = []): string
+    {
+        $template   = $this->getTemplateLink();
+        $phone_link = $this->clear(implode('', $formatted));
+        $phone_link = Str::start($phone_link, '+');
+        $attr       = $this->compileAttributes($attributes);
+
+        return sprintf($template, $phone_link, $attr, $result);
+    }
+
+    protected function formatPhone(array $formatted = [], bool $is_html = true): string
+    {
+        $template = $this->getTemplate($is_html);
+        $region   = Arr::get($formatted, 'region');
+        $city     = Arr::get($formatted, 'city');
+        $phone    = Arr::get($formatted, 'phone');
+
+        return sprintf($template, $region, $city, $phone);
+    }
+
+    protected function getShortPhone(array $formatted, bool $is_html = true, bool $is_link = true, array $attributes = []): string
     {
         $phone = (string) Arr::get($formatted, 'phone');
 
@@ -78,8 +94,12 @@ class Phone
 
     /**
      * Conversion of letter numbers into digital numbers.
+     *
+     * @param string $phone
+     *
+     * @return string
      */
-    private function convertWords(string $phone = ''): string
+    protected function convertWords(string $phone = ''): string
     {
         $phone   = Str::lower($phone);
         $replace = [
@@ -104,8 +124,10 @@ class Phone
      * Delete all characters except digits from the number.
      *
      * @param string $phone
+     *
+     * @return string
      */
-    private function clear($phone): string
+    protected function clear($phone): string
     {
         $phone = $this->convertWords((string) $phone);
 
@@ -121,8 +143,9 @@ class Phone
      * @param $city
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return string
      */
-    private function code($phone, $region, $city = null): string
+    protected function code($phone, $region, $city = null): string
     {
         if ($city && Str::startsWith($phone, ($region . $city))) {
             return (string) $city;
@@ -146,10 +169,9 @@ class Phone
      * @param $phone
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     *
      * @return bool|int|string
      */
-    private function region($phone)
+    protected function region($phone)
     {
         $codes = $this->config('countries', []);
         $code  = Str::substr($phone, 0, 1);
@@ -167,10 +189,9 @@ class Phone
      * @param int|string $value
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     *
      * @return int
      */
-    private function replaceRegion($value)
+    protected function replaceRegion($value)
     {
         $regions = $this->config('replaces_country', []);
 
@@ -181,8 +202,10 @@ class Phone
      * Splitting a phone number into groups.
      *
      * @param $phone
+     *
+     * @return string
      */
-    private function split(string $phone): string
+    protected function split(string $phone): string
     {
         $length = Str::length((string) $phone);
 
@@ -207,7 +230,7 @@ class Phone
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    private function phoneCode(string $phone, $code = null): array
+    protected function phoneCode(string $phone, $code = null): array
     {
         if (Str::length($phone) <= 4) {
             return [];
@@ -229,10 +252,9 @@ class Phone
     /**
      * Checking the "beauty" of the phone number.
      *
-     *
      * @return bool
      */
-    private function isBeauty(string $phone)
+    protected function isBeauty(string $phone)
     {
         $arr = str_split($phone, 3);
 
@@ -258,7 +280,7 @@ class Phone
     /**
      * Calculation of the sum of the digits of a string.
      */
-    private function sum(string $digit = ''): int
+    protected function sum(string $digit = ''): int
     {
         if ((int) $digit < 10) {
             return (int) $digit;
@@ -271,8 +293,13 @@ class Phone
 
     /**
      * Formatting a phone number.
+     *
+     * @param string $phone
+     * @param array $phone_code
+     *
+     * @return array
      */
-    private function format(string $phone, array $phone_code): array
+    protected function format(string $phone, array $phone_code): array
     {
         if (Str::length($phone) <= 4) {
             return compact('phone');
@@ -322,7 +349,7 @@ class Phone
         return $phone_code;
     }
 
-    private function compileAttributes(array $attributes = []): string
+    protected function compileAttributes(array $attributes = []): string
     {
         if (empty($attributes)) {
             return '';
@@ -335,7 +362,7 @@ class Phone
         return ' ' . implode(' ', $attributes);
     }
 
-    private function getTemplate(bool $is_html = true): string
+    protected function getTemplate(bool $is_html = true): string
     {
         $key = $is_html ? 'template_prefix_html' : 'template_prefix_text';
 
@@ -344,14 +371,14 @@ class Phone
         return $this->fixTemplate($template, '+%s (%s) %s');
     }
 
-    private function getTemplateLink(string $default = '<a href="%s"%s>%s</a>')
+    protected function getTemplateLink(string $default = '<a href="%s"%s>%s</a>')
     {
         $template = $this->config('template_link', $default);
 
         return $this->fixTemplate($template, $default);
     }
 
-    private function fixTemplate(string $template, string $default): string
+    protected function fixTemplate(string $template, string $default): string
     {
         return substr_count($template, '%s') == 3
             ? $template
