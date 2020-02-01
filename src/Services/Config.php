@@ -8,7 +8,7 @@ use function class_exists;
 
 class Config
 {
-    protected static $config = [];
+    protected static $config;
 
     public function get($key, $default = null)
     {
@@ -35,7 +35,7 @@ class Config
 
     protected function illuminate()
     {
-        return IlluminateConfig::get("beautiful_phone", []);
+        return IlluminateConfig::get("beautiful_phone");
     }
 
     protected function illuminateExists(): bool
