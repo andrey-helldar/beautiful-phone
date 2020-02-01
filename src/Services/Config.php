@@ -36,6 +36,10 @@ class Config
 
     protected function load()
     {
-        return $this->illuminateExists() ? $this->illuminate() : $this->local();
+        if ($this->illuminateExists() && $config = $this->illuminate()) {
+            return $config;
+        }
+
+        return $this->local();
     }
 }
