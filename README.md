@@ -11,7 +11,7 @@ Formatting a phone number into a beautiful view.
 </p>
 
 <p align="center">
-    <a href="https://styleci.io/repos/45746985"><img src="https://styleci.io/repos/45746985/shield" alt="StyleCI" /></a>
+    <a href="https://styleci.io/repos/127879322"><img src="https://styleci.io/repos/127879322/shield" alt="StyleCI" /></a>
     <a href="https://travis-ci.org/andrey-helldar/beautiful-phone"><img src="https://travis-ci.org/andrey-helldar/beautiful-phone.svg?branch=master" alt="Travis-CI" /></a>
     <a href="LICENSE"><img src="https://poser.pugx.org/andrey-helldar/beautiful-phone/license?format=flat-square" alt="License" /></a>
 </p>
