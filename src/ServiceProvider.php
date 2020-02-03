@@ -22,14 +22,13 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/config/beautiful_phone.php', 'beautiful_phone');
+        $this->mergeConfigFrom(__DIR__ . '/../config/beautiful_phone.php', 'beautiful_phone');
 
         $this->app->singleton('phone', Phone::class);
     }
 
     /**
      * {@inheritdoc}
-     *
      * @deprecated The `app('phone)` helper will be removed from the package in version 2.0.
      */
     public function provides()
