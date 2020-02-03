@@ -10,11 +10,6 @@ class ServiceProvider extends IlluminateServiceProvider
     /**
      * {@inheritdoc}
      */
-    protected $defer = true;
-
-    /**
-     * {@inheritdoc}
-     */
     public function boot()
     {
         $this->publishes([
@@ -29,12 +24,11 @@ class ServiceProvider extends IlluminateServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/config/beautiful_phone.php', 'beautiful_phone');
 
-        $this->app->singleton('phone', 'Helldar\BeautifulPhone\Services\Phone');
+        $this->app->singleton('phone', Phone::class);
     }
 
     /**
      * {@inheritdoc}
-     *
      * @deprecated The `app('phone)` helper will be removed from the package in version 2.0.
      */
     public function provides()
