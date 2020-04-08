@@ -88,43 +88,53 @@ class PhoneTest extends TestCase
         // Default parameters:
         $this->assertEquals(
             '<a href="tel:456" id="foo" class="bar baz" data-value="foo">456</a>',
-            phone('456', 0, true, true, $this->attributes));
+            phone('456', 0, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:1234" id="foo" class="bar baz" data-value="foo">1234</a>',
-            phone('1234', 0, true, true, $this->attributes));
+            phone('1234', 0, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+781236622" id="foo" class="bar baz" data-value="foo"><span>+7 (812)</span> 3-66-22</a>',
-            phone('fooba', 0, true, true, $this->attributes));
+            phone('fooba', 0, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+7812366227" id="foo" class="bar baz" data-value="foo"><span>+7 (812)</span> 36-62-27</a>',
-            phone('foobar', 0, true, true, $this->attributes));
+            phone('foobar', 0, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+7812123123" id="foo" class="bar baz" data-value="foo"><span>+7 (812)</span> 123-123</a>',
-            phone('123123', 0, true, true, $this->attributes));
+            phone('123123', 0, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+31234567890" id="foo" class="bar baz" data-value="foo"><span>+3 (123)</span> 456-789-0</a>',
-            phone('31234567890', 0, true, true, $this->attributes));
+            phone('31234567890', 0, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+33216549883" id="foo" class="bar baz" data-value="foo"><span>+3 (321)</span> 654-98-83</a>',
-            phone('+33216549883', 0, true, true, $this->attributes));
+            phone('+33216549883', 0, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+33216665557" id="foo" class="bar baz" data-value="foo"><span>+3 (321)</span> 666-555-7</a>',
-            phone('+33216665557', 0, true, true, $this->attributes));
+            phone('+33216665557', 0, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+73216665557" id="foo" class="bar baz" data-value="foo"><span>+7 (321)</span> 666-555-7</a>',
-            phone('+73216665557', 0, true, true, $this->attributes));
+            phone('+73216665557', 0, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+73216665557" id="foo" class="bar baz" data-value="foo"><span>+7 (321)</span> 666-555-7</a>',
-            phone('+83216665557', 0, true, true, $this->attributes));
+            phone('+83216665557', 0, true, true, $this->attributes)
+        );
     }
 
     public function testWithCityCodeWithAttributes()
@@ -132,43 +142,53 @@ class PhoneTest extends TestCase
         // With manual applying city code:
         $this->assertEquals(
             '<a href="tel:456" id="foo" class="bar baz" data-value="foo">456</a>',
-            phone('456', 1234, true, true, $this->attributes));
+            phone('456', 1234, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:1234" id="foo" class="bar baz" data-value="foo">1234</a>',
-            phone('1234', 1234, true, true, $this->attributes));
+            phone('1234', 1234, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+7123436622" id="foo" class="bar baz" data-value="foo"><span>+7 (1234)</span> 3-66-22</a>',
-            phone('fooba', 1234, true, true, $this->attributes));
+            phone('fooba', 1234, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+71234366227" id="foo" class="bar baz" data-value="foo"><span>+7 (1234)</span> 36-62-27</a>',
-            phone('foobar', 1234, true, true, $this->attributes));
+            phone('foobar', 1234, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+71234123123" id="foo" class="bar baz" data-value="foo"><span>+7 (1234)</span> 123-123</a>',
-            phone('123123', 1234, true, true, $this->attributes));
+            phone('123123', 1234, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+31234567890" id="foo" class="bar baz" data-value="foo"><span>+3 (1234)</span> 567-890</a>',
-            phone('31234567890', 1234, true, true, $this->attributes));
+            phone('31234567890', 1234, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+33216549883" id="foo" class="bar baz" data-value="foo"><span>+3 (321)</span> 654-98-83</a>',
-            phone('+33216549883', 1234, true, true, $this->attributes));
+            phone('+33216549883', 1234, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+33216665557" id="foo" class="bar baz" data-value="foo"><span>+3 (321)</span> 666-555-7</a>',
-            phone('+33216665557', 1234, true, true, $this->attributes));
+            phone('+33216665557', 1234, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+73216665557" id="foo" class="bar baz" data-value="foo"><span>+7 (321)</span> 666-555-7</a>',
-            phone('+73216665557', 1234, true, true, $this->attributes));
+            phone('+73216665557', 1234, true, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+73216665557" id="foo" class="bar baz" data-value="foo"><span>+7 (321)</span> 666-555-7</a>',
-            phone('+83216665557', 1234, true, true, $this->attributes));
+            phone('+83216665557', 1234, true, true, $this->attributes)
+        );
     }
 
     public function testWithDisabledHtmlWithAttributes()
@@ -176,43 +196,53 @@ class PhoneTest extends TestCase
         // With disabled html formatting into phone number:
         $this->assertEquals(
             '<a href="tel:456" id="foo" class="bar baz" data-value="foo">456</a>',
-            phone('456', 0, false, true, $this->attributes));
+            phone('456', 0, false, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:1234" id="foo" class="bar baz" data-value="foo">1234</a>',
-            phone('1234', 0, false, true, $this->attributes));
+            phone('1234', 0, false, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+781236622" id="foo" class="bar baz" data-value="foo">+7 (812) 3-66-22</a>',
-            phone('fooba', 0, false, true, $this->attributes));
+            phone('fooba', 0, false, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+7812366227" id="foo" class="bar baz" data-value="foo">+7 (812) 36-62-27</a>',
-            phone('foobar', 0, false, true, $this->attributes));
+            phone('foobar', 0, false, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+7812123123" id="foo" class="bar baz" data-value="foo">+7 (812) 123-123</a>',
-            phone('123123', 0, false, true, $this->attributes));
+            phone('123123', 0, false, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+31234567890" id="foo" class="bar baz" data-value="foo">+3 (123) 456-789-0</a>',
-            phone('31234567890', 0, false, true, $this->attributes));
+            phone('31234567890', 0, false, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+33216549883" id="foo" class="bar baz" data-value="foo">+3 (321) 654-98-83</a>',
-            phone('+33216549883', 0, false, true, $this->attributes));
+            phone('+33216549883', 0, false, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+33216665557" id="foo" class="bar baz" data-value="foo">+3 (321) 666-555-7</a>',
-            phone('+33216665557', 0, false, true, $this->attributes));
+            phone('+33216665557', 0, false, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+73216665557" id="foo" class="bar baz" data-value="foo">+7 (321) 666-555-7</a>',
-            phone('+73216665557', 0, false, true, $this->attributes));
+            phone('+73216665557', 0, false, true, $this->attributes)
+        );
 
         $this->assertEquals(
             '<a href="tel:+73216665557" id="foo" class="bar baz" data-value="foo">+7 (321) 666-555-7</a>',
-            phone('+83216665557', 0, false, true, $this->attributes));
+            phone('+83216665557', 0, false, true, $this->attributes)
+        );
     }
 
     public function testWithEnabledHtmlAndDisabledLinkWithAttributes()
