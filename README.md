@@ -65,8 +65,6 @@ use Helldar\BeautifulPhone\Services\Phone;
 return (new Phone())->get(/*...params...*/);
 ```
 
-> Note: the `app('phone)` helper will be removed from the package in version 2.0.
-
 
 ### Default parameters:
 
