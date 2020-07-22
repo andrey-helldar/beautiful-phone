@@ -30,27 +30,35 @@ Instead, you may of course manually update your require block and run `composer 
 ```json
 {
     "require": {
-        "andrey-helldar/beautiful-phone": "^1.6"
+        "andrey-helldar/beautiful-phone": "^2.0"
     }
 }
 ```
 
 
-#### For the Laravel Framework
-If you don't use auto-discovery, add the `ServiceProvider` to the `providers` array in `config/app.php`:
-
-```php
-'providers' => [
-    // ...
-    Helldar\BeautifulPhone\ServiceProvider::class,
-    // ...
-]
-```
+### Laravel
 
 You can also publish the config file to change implementations (ie. interface to specific class):
 
-```
+```shell script
 php artisan vendor:publish --provider="Helldar\BeautifulPhone\ServiceProvider"
+```
+
+
+### Lumen
+
+This package is focused on Laravel development, but it can also be used in Lumen with some workarounds. Because Lumen works a little different, as it is like a barebone version of Laravel and the main configuration parameters are instead located in `bootstrap/app.php`, some alterations must be made.
+
+You can install the package in `app/Providers/AppServiceProvider.php`, and uncommenting this line that registers the App Service Providers so it can properly load.
+
+```php
+// $app->register(App\Providers\AppServiceProvider::class);
+```
+
+If you are not using that line, that is usually handy to manage gracefully multiple Lumen installations, you will have to add this line of code under the `Register Service Providers `section of your `bootstrap/app.php`.
+
+```
+$app->register(\Helldar\BeautifulPhone\ServiceProvider::class);
 ```
 
 
@@ -245,6 +253,26 @@ return phone('foobar', 0, true, false, $attributes);
 
 // With disabled html formatting and `is_link` parameter into phone number:
 return phone('foobar', 0, false, false, $attributes);
+// returned: +7 (812) 36-62-27
+```
+
+### Laravel/Lumen facade
+
+If you are using the Laravel or Lumen framework, then you can use the `Phone` facade call:
+
+```php
+use Helldar\BeautifulPhone\Facades\Phone;
+
+return Phone::spanLink('foobar');
+// returned: <a href='tel:+7812366227'><span>+7 (812)</span> 36-62-27</a>
+
+return Phone::cleanLink('foobar');
+// returned: <a href='tel:+7812366227'>+7 (812) 36-62-27</a>
+
+return Phone::span('foobar');
+// returned: <span>+7 (812)</span> 36-62-27
+
+return Phone::clean('foobar');
 // returned: +7 (812) 36-62-27
 ```
 
