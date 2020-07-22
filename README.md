@@ -30,7 +30,7 @@ Instead, you may of course manually update your require block and run `composer 
 ```json
 {
     "require": {
-        "andrey-helldar/beautiful-phone": "^2.0"
+        "andrey-helldar/beautiful-phone": "^2.1"
     }
 }
 ```
@@ -230,6 +230,37 @@ return phone('+83216665557', 0, false, false);
 // returned: +7 (321) 666-555-7
 ```
 
+### With full clear attribute:
+
+```php
+return phone('4567', 0, false, false, [], true);
+// returned: 4567
+
+return phone('fooba', 0, false, false, [], true);
+// returned: +781236622
+
+return phone('foobar', 0, false, false, [], true);
+// returned: +7812366227
+
+return phone('123123', 0, false, false, [], true);
+// returned: +7812123123
+
+return phone('31234567890', 0, false, false, [], true);
+// returned: +31234567890
+
+return phone('+33216549883', 0, false, false, [], true);
+// returned: +33216549883
+
+return phone('+33216665557', 0, false, false, [], true);
+// returned: +33216665557
+
+return phone('+73216665557', 0, false, false, [], true);
+// returned: +73216665557
+
+return phone('+83216665557', 0, false, false, [], true);
+// returned: +73216665557
+```
+
 ### With additional attributes:
 
 ```php
@@ -256,6 +287,7 @@ return phone('foobar', 0, false, false, $attributes);
 // returned: +7 (812) 36-62-27
 ```
 
+
 ### Laravel/Lumen facade
 
 If you are using the Laravel or Lumen framework, then you can use the `Phone` facade call:
@@ -272,8 +304,11 @@ return Phone::cleanLink('foobar');
 return Phone::span('foobar');
 // returned: <span>+7 (812)</span> 36-62-27
 
-return Phone::clean('foobar');
+return Phone::clear('foobar');
 // returned: +7 (812) 36-62-27
+
+return Phone::fullClear('foobar');
+// returned: +7812366227
 ```
 
 

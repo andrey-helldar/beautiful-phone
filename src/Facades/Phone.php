@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static bool|string spanLink($phone, int $city_code = 0, array $attributes = [])
  * @method static bool|string cleanLink($phone, int $city_code = 0, array $attributes = [])
  * @method static bool|string span($phone, int $city_code = 0)
- * @method static bool|string clean($phone, int $city_code = 0)
+ * @method static bool|string clear($phone, int $city_code = 0)
+ * @method static bool|string fullClear($phone, int $city_code = 0)
  */
 final class Phone extends Facade
 {

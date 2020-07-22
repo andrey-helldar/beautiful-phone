@@ -26,8 +26,13 @@ final class Formatter
         return $this->instance->get($phone, $city_code, true, false);
     }
 
-    public function clean($phone, int $city_code = 0)
+    public function clear($phone, int $city_code = 0)
     {
         return $this->instance->get($phone, $city_code, false, false);
+    }
+
+    public function fullClear($phone, int $city_code = 0)
+    {
+        return $this->instance->get($phone, $city_code, false, false, [], true);
     }
 }

@@ -274,4 +274,18 @@ class PhoneTest extends TestCase
         $this->assertEquals('+7 (321) 666-555-7', phone('+73216665557', 0, false, false, $this->attributes));
         $this->assertEquals('+7 (321) 666-555-7', phone('+83216665557', 0, false, false, $this->attributes));
     }
+
+    public function testFullClean()
+    {
+        $this->assertEquals('456', phone('456', 0, false, false, [], true));
+        $this->assertEquals('1234', phone('1234', 0, false, false, [], true));
+        $this->assertEquals('+781236622', phone('fooba', 0, false, false, [], true));
+        $this->assertEquals('+7812366227', phone('foobar', 0, false, false, [], true));
+        $this->assertEquals('+7812123123', phone('123123', 0, false, false, [], true));
+        $this->assertEquals('+31234567890', phone('31234567890', 0, false, false, [], true));
+        $this->assertEquals('+33216549883', phone('+33216549883', 0, false, false, [], true));
+        $this->assertEquals('+33216665557', phone('+33216665557', 0, false, false, [], true));
+        $this->assertEquals('+73216665557', phone('+73216665557', 0, false, false, [], true));
+        $this->assertEquals('+73216665557', phone('+83216665557', 0, false, false, [], true));
+    }
 }

@@ -2,17 +2,17 @@
 
 namespace Helldar\BeautifulPhone\Services;
 
+use Helldar\BeautifulPhone\Traits\HasConfigurable;
+use Helldar\Support\Facades\Arr;
+use Helldar\Support\Facades\Str;
+
 use function array_keys;
 use function array_map;
 use function array_merge;
-
 use function array_sum;
 use function array_unique;
 use function array_values;
 use function compact;
-use Helldar\BeautifulPhone\Traits\HasConfigurable;
-use Helldar\Support\Facades\Arr;
-use Helldar\Support\Facades\Str;
 use function implode;
 use function preg_replace;
 use function sprintf;
@@ -27,26 +27,27 @@ class Phone
 
     /**
      * @param $phone
-     * @param int $city_code
-     * @param bool $is_html
-     * @param bool $is_link
-     * @param array $attributes
+     * @param  int  $city_code
+     * @param  bool  $is_html
+     * @param  bool  $is_link
+     * @param  array  $attributes
+     * @param  bool  $clear
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      *
      * @return bool|string
      */
-    public function get($phone, int $city_code = 0, bool $is_html = true, bool $is_link = true, array $attributes = []): string
+    public function get($phone, int $city_code = 0, bool $is_html = true, bool $is_link = true, array $attributes = [], bool $clear = false): string
     {
         $phone_clean = $this->clear($phone);
         $phone_code  = $this->phoneCode($phone_clean, $city_code);
-        $formatted   = $this->format($phone_clean, $phone_code);
+        $formatted   = $this->format($phone_clean, $phone_code, $clear);
 
         if ($result = $this->getShortPhone($formatted, $is_html, $is_link, $attributes)) {
             return $result;
         }
 
-        $result = $this->formatPhone($formatted, $is_html);
+        $result = $this->formatPhone($formatted, $is_html, $clear);
 
         if ($is_link) {
             return $this->convertToLink($result, $formatted, $attributes);
@@ -65,14 +66,16 @@ class Phone
         return sprintf($template, $phone_link, $attr, $result);
     }
 
-    protected function formatPhone(array $formatted = [], bool $is_html = true): string
+    protected function formatPhone(array $formatted = [], bool $is_html = true, bool $clear = false): string
     {
         $template = $this->getTemplate($is_html);
         $region   = Arr::get($formatted, 'region');
         $city     = Arr::get($formatted, 'city');
         $phone    = Arr::get($formatted, 'phone');
 
-        return sprintf($template, $region, $city, $phone);
+        return $clear
+            ? '+' . $region . $city . $phone
+            : sprintf($template, $region, $city, $phone);
     }
 
     protected function getShortPhone(array $formatted, bool $is_html = true, bool $is_link = true, array $attributes = []): string
@@ -96,7 +99,7 @@ class Phone
     /**
      * Conversion of letter numbers into digital numbers.
      *
-     * @param string $phone
+     * @param  string  $phone
      *
      * @return string
      */
@@ -124,7 +127,7 @@ class Phone
     /**
      * Delete all characters except digits from the number.
      *
-     * @param string $phone
+     * @param  string  $phone
      *
      * @return string
      */
@@ -189,7 +192,7 @@ class Phone
     }
 
     /**
-     * @param int|string $value
+     * @param  int|string  $value
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      *
@@ -205,11 +208,12 @@ class Phone
     /**
      * Splitting a phone number into groups.
      *
-     * @param $phone
+     * @param  string  $phone
+     * @param  string  $divider
      *
      * @return string
      */
-    protected function split(string $phone): string
+    protected function split(string $phone, string $divider = '-'): string
     {
         $length = Str::length((string) $phone);
 
@@ -221,16 +225,16 @@ class Phone
             $tmp = [Str::substr($phone, 0, 3)];
             $tmp = array_merge($tmp, str_split(Str::substr($phone, 3), 2));
 
-            return implode('-', $tmp);
+            return implode($divider, $tmp);
         }
 
-        return implode('-', str_split($phone, 3));
+        return implode($divider, str_split($phone, 3));
     }
 
     /**
      * Attaching the phone code of the city.
      *
-     * @param int|null $code
+     * @param  int|null  $code
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
@@ -298,13 +302,16 @@ class Phone
     /**
      * Formatting a phone number.
      *
-     * @param string $phone
-     * @param array $phone_code
+     * @param  string  $phone
+     * @param  array  $phone_code
+     * @param  bool  $clear
      *
      * @return array
      */
-    protected function format(string $phone, array $phone_code): array
+    protected function format(string $phone, array $phone_code, bool $clear = false): array
     {
+        $divider = $clear ? '' : '-';
+
         if (Str::length($phone) <= 4) {
             return compact('phone');
         }
@@ -312,7 +319,7 @@ class Phone
         if (Str::length($phone) == 5) {
             $arr = str_split(substr($phone, 1), 2);
 
-            $phone = $phone[0] . '-' . implode('-', $arr);
+            $phone = $phone[0] . $divider . implode($divider, $arr);
 
             $phone_code['phone'] = $phone;
 
@@ -320,8 +327,8 @@ class Phone
         }
 
         if (Str::length($phone) == 6) {
-            $divider = $this->isBeauty($phone) ? 3 : 2;
-            $phone   = implode('-', str_split($phone, $divider));
+            $num   = $this->isBeauty($phone) ? 3 : 2;
+            $phone = implode($divider, str_split($phone, $num));
 
             $phone_code['phone'] = $phone;
 
@@ -329,7 +336,7 @@ class Phone
         }
 
         if (Str::length($phone) < 10) {
-            $phone = implode('-', str_split($phone, 3));
+            $phone = implode($divider, str_split($phone, 3));
 
             $phone_code['phone'] = $phone;
 
@@ -341,14 +348,14 @@ class Phone
         $phone  = Str::substr($phone, Str::length($prefix));
 
         if ($this->isBeauty($phone)) {
-            $phone = implode('-', str_split($phone, 3));
+            $phone = implode($divider, str_split($phone, 3));
 
             $phone_code['phone'] = $phone;
 
             return $phone_code;
         }
 
-        $phone_code['phone'] = $this->split($phone);
+        $phone_code['phone'] = $this->split($phone, $divider);
 
         return $phone_code;
     }
