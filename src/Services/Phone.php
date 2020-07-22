@@ -2,17 +2,17 @@
 
 namespace Helldar\BeautifulPhone\Services;
 
-use Helldar\BeautifulPhone\Traits\HasConfigurable;
-use Helldar\Support\Facades\Arr;
-use Helldar\Support\Facades\Str;
-
 use function array_keys;
 use function array_map;
 use function array_merge;
+
 use function array_sum;
 use function array_unique;
 use function array_values;
 use function compact;
+use Helldar\BeautifulPhone\Traits\HasConfigurable;
+use Helldar\Support\Facades\Arr;
+use Helldar\Support\Facades\Str;
 use function implode;
 use function preg_replace;
 use function sprintf;
