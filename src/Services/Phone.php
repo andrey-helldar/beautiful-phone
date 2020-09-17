@@ -9,7 +9,7 @@ use Helldar\Support\Facades\Str;
 class Phone
 {
     /**
-     * @param  string|int  $phone
+     * @param  int|string  $phone
      * @param  int  $city_code
      * @param  bool  $is_html
      * @param  bool  $is_link
@@ -218,6 +218,7 @@ class Phone
      * @param  int|null  $code
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
      * @return array
      */
     protected function phoneCode(string $phone, $code = null): array
