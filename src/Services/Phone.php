@@ -2,29 +2,12 @@
 
 namespace Helldar\BeautifulPhone\Services;
 
-use function array_keys;
-use function array_map;
-use function array_merge;
-
-use function array_sum;
-use function array_unique;
-use function array_values;
-use function compact;
-use Helldar\BeautifulPhone\Traits\HasConfigurable;
+use Helldar\BeautifulPhone\Support\Config;
 use Helldar\Support\Facades\Arr;
 use Helldar\Support\Facades\Str;
-use function implode;
-use function preg_replace;
-use function sprintf;
-use function str_ireplace;
-use function str_split;
-use function substr;
-use function substr_count;
 
 class Phone
 {
-    use HasConfigurable;
-
     /**
      * @param $phone
      * @param  int  $city_code
@@ -156,7 +139,7 @@ class Phone
             return (string) $city;
         }
 
-        foreach ($this->config('codes', []) as $code) {
+        foreach (Config::codes() as $code) {
             $len_region = Str::length($region);
             $len_code   = Str::length((string) $code);
 
@@ -179,10 +162,9 @@ class Phone
      */
     protected function region($phone)
     {
-        $codes = $this->config('countries', []);
-        $code  = Str::substr($phone, 0, 1);
+        $code = Str::substr($phone, 0, 1);
 
-        foreach ($codes as $item) {
+        foreach (Config::countries() as $item) {
             if (Str::startsWith($phone, $item)) {
                 return $this->replaceRegion($item);
             }
@@ -200,9 +182,7 @@ class Phone
      */
     protected function replaceRegion($value)
     {
-        $regions = $this->config('replaces_country', []);
-
-        return (int) Arr::get($regions, $value, $value);
+        return (int) Arr::get(Config::replacesCountry(), $value, $value);
     }
 
     /**
@@ -245,8 +225,8 @@ class Phone
         }
 
         if (Str::length($phone) <= 7) {
-            $region = $this->config('default_country', 7);
-            $city   = $code ?: $this->config('default_city', 7);
+            $region = Config::defaultCountry();
+            $city   = $code ?: Config::defaultCity();
 
             return compact('region', 'city');
         }
@@ -375,16 +355,14 @@ class Phone
 
     protected function getTemplate(bool $is_html = true): string
     {
-        $key = $is_html ? 'template_prefix_html' : 'template_prefix_text';
-
-        $template = $this->config($key, '+%s (%s) %s');
+        $template = $is_html ? Config::templatePrefixHtml() : Config::templatePrefixText();
 
         return $this->fixTemplate($template, '+%s (%s) %s');
     }
 
     protected function getTemplateLink(string $default = '<a href="%s"%s>%s</a>')
     {
-        $template = $this->config('template_link', $default);
+        $template = Config::templateLink($default);
 
         return $this->fixTemplate($template, $default);
     }
