@@ -6,7 +6,7 @@ return [
      * if not, then according to the generally accepted standard 3-2-2.
      */
 
-    'beauty_enabled' => true,
+    'enabled' => true,
 
     /*
      * List of country codes.

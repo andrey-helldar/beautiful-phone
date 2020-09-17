@@ -9,7 +9,7 @@ use Helldar\Support\Facades\Str;
 class Phone
 {
     /**
-     * @param $phone
+     * @param  string|int  $phone
      * @param  int  $city_code
      * @param  bool  $is_html
      * @param  bool  $is_link
@@ -162,15 +162,15 @@ class Phone
      */
     protected function region($phone)
     {
-        $code = Str::substr($phone, 0, 1);
-
         foreach (Config::countries() as $item) {
             if (Str::startsWith($phone, $item)) {
                 return $this->replaceRegion($item);
             }
         }
 
-        return $this->replaceRegion($code);
+        return $this->replaceRegion(
+            Str::substr($phone, 0, 1)
+        );
     }
 
     /**
@@ -195,7 +195,7 @@ class Phone
      */
     protected function split(string $phone, string $divider = '-'): string
     {
-        $length = Str::length((string) $phone);
+        $length = Str::length($phone);
 
         if ($length <= 4) {
             return $phone;
@@ -208,15 +208,17 @@ class Phone
             return implode($divider, $tmp);
         }
 
-        return implode($divider, str_split($phone, 3));
+        return implode($divider, str_split($phone, $this->splitLength($phone)));
     }
 
     /**
      * Attaching the phone code of the city.
      *
+     * @param  string  $phone
      * @param  int|null  $code
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return array
      */
     protected function phoneCode(string $phone, $code = null): array
     {
@@ -240,10 +242,16 @@ class Phone
     /**
      * Checking the "beauty" of the phone number.
      *
+     * @param  string  $phone
+     *
      * @return bool
      */
     protected function isBeauty(string $phone)
     {
+        if (! Config::isEnabled()) {
+            return false;
+        }
+
         $arr = str_split($phone, 3);
 
         $is_beauty = $arr[0] === $arr[1];
@@ -267,6 +275,10 @@ class Phone
 
     /**
      * Calculation of the sum of the digits of a string.
+     *
+     * @param  string  $digit
+     *
+     * @return int
      */
     protected function sum(string $digit = ''): int
     {
@@ -306,17 +318,8 @@ class Phone
             return $phone_code;
         }
 
-        if (Str::length($phone) == 6) {
-            $num   = $this->isBeauty($phone) ? 3 : 2;
-            $phone = implode($divider, str_split($phone, $num));
-
-            $phone_code['phone'] = $phone;
-
-            return $phone_code;
-        }
-
         if (Str::length($phone) < 10) {
-            $phone = implode($divider, str_split($phone, 3));
+            $phone = implode($divider, str_split($phone, $this->splitLength($phone)));
 
             $phone_code['phone'] = $phone;
 
@@ -328,7 +331,7 @@ class Phone
         $phone  = Str::substr($phone, Str::length($prefix));
 
         if ($this->isBeauty($phone)) {
-            $phone = implode($divider, str_split($phone, 3));
+            $phone = implode($divider, str_split($phone, $this->splitLength($phone)));
 
             $phone_code['phone'] = $phone;
 
@@ -372,5 +375,10 @@ class Phone
         return substr_count($template, '%s') == 3
             ? $template
             : $default;
+    }
+
+    protected function splitLength(string $phone): int
+    {
+        return $this->isBeauty($phone) ? 3 : 2;
     }
 }

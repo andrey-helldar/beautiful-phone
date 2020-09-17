@@ -10,7 +10,7 @@ final class Config
 
     public static function isEnabled(): bool
     {
-        return self::get('beauty_enabled', true);
+        return self::get('enabled', true);
     }
 
     public static function countries(array $default = []): array
@@ -56,6 +56,15 @@ final class Config
     public static function get($key, $default = null)
     {
         return self::instance()[$key] ?? $default;
+    }
+
+    public static function set($key, $value = null): void
+    {
+        if (empty(self::$instance)) {
+            self::$instance = self::load();
+        }
+
+        self::$instance[$key] = $value;
     }
 
     protected static function instance(): array
