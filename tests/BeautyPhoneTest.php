@@ -2,8 +2,6 @@
 
 namespace Tests;
 
-use Helldar\BeautifulPhone\Support\Config;
-
 class BeautyPhoneTest extends TestCase
 {
     private $attributes = ['id' => 'foo', 'class' => 'bar baz', 'data-value' => 'foo'];
