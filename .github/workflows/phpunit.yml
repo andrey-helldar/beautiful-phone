@@ -35,9 +35,4 @@ jobs:
             -   name: Execute tests
                 run: |
                     mkdir -p build/logs
-                    vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-
-            -   name: Scrutinizer CI
-                run: |
-                    wget https://scrutinizer-ci.com/ocular.phar
-                    php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+                    vendor/bin/phpunit
