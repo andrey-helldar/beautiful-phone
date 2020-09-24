@@ -4,6 +4,8 @@ Formatting a phone number into a beautiful view.
 
 ![beautiful phone](https://user-images.githubusercontent.com/10347617/66074886-f3b82c80-e562-11e9-80b1-ba731deba9f3.png)
 
+> This package is abandoned and no longer maintained. The author suggests using the [propaganistas/laravel-phone](https://github.com/Propaganistas/Laravel-Phone) package instead.
+
 <p align="center">
     <a href="https://packagist.org/packages/andrey-helldar/beautiful-phone"><img src="https://img.shields.io/packagist/dt/andrey-helldar/beautiful-phone.svg?style=flat-square" alt="Total Downloads" /></a>
     <a href="https://packagist.org/packages/andrey-helldar/beautiful-phone"><img src="https://poser.pugx.org/andrey-helldar/beautiful-phone/v/stable?format=flat-square" alt="Latest Stable Version" /></a>
